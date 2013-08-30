@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace VotingSystem.Model
 {
-    public class Election
-    {   
+    public class Answer
+    {
     }
 }
