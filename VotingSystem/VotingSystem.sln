@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingSystem.Model", "VotingSystem.Model\VotingSystem.Model.csproj", "{A664D230-9EF4-4476-9142-87E2C38F1EEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingSystem.Data", "VotingSystem.Data\VotingSystem.Data.csproj", "{1825A2E6-EF2E-4C01-A4D8-DAF640D4C01F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingSystem.Services", "VotingSystem.Services\VotingSystem.Services.csproj", "{0AC806DE-009C-4928-80E3-E41645CF0B8B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A664D230-9EF4-4476-9142-87E2C38F1EEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A664D230-9EF4-4476-9142-87E2C38F1EEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A664D230-9EF4-4476-9142-87E2C38F1EEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A664D230-9EF4-4476-9142-87E2C38F1EEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1825A2E6-EF2E-4C01-A4D8-DAF640D4C01F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1825A2E6-EF2E-4C01-A4D8-DAF640D4C01F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1825A2E6-EF2E-4C01-A4D8-DAF640D4C01F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1825A2E6-EF2E-4C01-A4D8-DAF640D4C01F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AC806DE-009C-4928-80E3-E41645CF0B8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AC806DE-009C-4928-80E3-E41645CF0B8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AC806DE-009C-4928-80E3-E41645CF0B8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AC806DE-009C-4928-80E3-E41645CF0B8B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
