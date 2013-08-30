@@ -6,7 +6,7 @@ using System.Web.Http.Dependencies;
 
 namespace VotingSystem.Services.Resolvers
 {
-    public class DbDependencyResolver: IDependencyResolver
+    public class DbDependencyResolver : IDependencyResolver
     {
         //private static AllRepositories<StudentContext> allRepositories = new AllRepositories<StudentContext>();
 
@@ -15,9 +15,10 @@ namespace VotingSystem.Services.Resolvers
             return this;
         }
 
-        /*public object GetService(Type serviceType)
+        public object GetService(Type serviceType)
         {
-            if (serviceType == typeof(MarkController))
+            throw new NotImplementedException();
+            /*if (serviceType == typeof(MarkController))
             {
                 return new MarkController(allRepositories);
             }
@@ -32,8 +33,8 @@ namespace VotingSystem.Services.Resolvers
             else
             {
                 return null;
-            }
-        }*/
+            }*/
+        }
 
         public IEnumerable<object> GetServices(Type serviceType)
         {
@@ -43,6 +44,5 @@ namespace VotingSystem.Services.Resolvers
         public void Dispose()
         {
         }
-    {
     }
 }
