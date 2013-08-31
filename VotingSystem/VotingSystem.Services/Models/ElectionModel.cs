@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
+using VotingSystem.Model;
 
 namespace VotingSystem.Services.Models
 {
@@ -28,5 +29,10 @@ namespace VotingSystem.Services.Models
 
         [DataMember(Name = "state")]
         public virtual string State { get; set; }
+
+        /*public ElectionModel(Election election)
+        {
+
+        }*/
     }
 }

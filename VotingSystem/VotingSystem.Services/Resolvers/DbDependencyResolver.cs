@@ -25,10 +25,10 @@ namespace VotingSystem.Services.Resolvers
             {
                 return new UsersController(contextFactory);
             }
-            /*else if (serviceType == typeof(StudentController))
+            else if (serviceType == typeof(ElectionsController))
             {
-                return new StudentController(allRepositories);
-            }*/
+                return new ElectionsController(contextFactory);
+            }
             else
             {
                 return null;
