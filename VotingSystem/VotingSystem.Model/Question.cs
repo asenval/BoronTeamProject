@@ -18,7 +18,7 @@ namespace VotingSystem.Model
         public virtual ICollection<Answer> Answers { get; set; }
 
         [Required]
-        public virtual VoteType VoteType { get; set; }
+        public string VoteType { get; set; }
 
         [Required]
         public virtual Election Election { get; set; }

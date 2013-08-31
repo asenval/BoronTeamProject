@@ -9,7 +9,7 @@ namespace VotingSystem.Model
         public int Id { get; set; }
 
         [Required]
-        public StateType StateType { get; set; }
+        public string State { get; set; }
 
         public virtual ICollection<Election> Elections { get; set; }
 
