@@ -30,7 +30,12 @@ namespace VotingSystem.Data
             modelBuilder.Entity<User>().Property(x => x.AuthCode).HasMaxLength(50);
             modelBuilder.Entity<User>().Property(x => x.SessionKey).IsOptional().HasMaxLength(50);
 
-            //Todo add properties for other models
+            modelBuilder.Entity<Question>().Property(x => x.Content).HasMaxLength(200);
+            modelBuilder.Entity<Question>().Property(x => x.VoteType).HasMaxLength(20);
+            modelBuilder.Entity<Answer>().Property(x => x.Content).HasMaxLength(100);
+            modelBuilder.Entity<State>().Property(x => x.Name).HasMaxLength(20);
+            modelBuilder.Entity<Election>().Property(x => x.Title).HasMaxLength(50);
+            modelBuilder.Entity<Tag>().Property(x => x.Title).HasMaxLength(20);
             
             base.OnModelCreating(modelBuilder);
         }
