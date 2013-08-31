@@ -1,5 +1,4 @@
 ﻿using VotingSystem.Model;
-using VotingSystem.Data;
 using System;
 using System.Linq;
 using System.Data.Entity;

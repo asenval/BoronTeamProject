@@ -49,6 +49,7 @@
     <Compile Include="EntityRepository.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResultRepository.cs" />
     <Compile Include="ServerErrorExeption.cs" />
     <Compile Include="UnitOfWork.cs" />
     <Compile Include="UserRepository.cs" />
