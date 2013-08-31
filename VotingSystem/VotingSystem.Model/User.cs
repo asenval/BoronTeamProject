@@ -20,6 +20,12 @@ namespace VotingSystem.Model
 
         public string SessionKey { get; set; }
 
-        // Todo not all properties added;
+        [Required]
+        public virtual ICollection<Election> Elections { get; set; }
+
+        public User()
+        {
+            this.Elections = new HashSet<Election>();
+        }
     }
 }

@@ -5,5 +5,9 @@ namespace VotingSystem.Model
 {
     public class Result
     {
+        public int Id { get; set; }
+
+        // ? results but for what exactly? for answer? :
+        public virtual Answer Answer { get; set; }
     }
 }
