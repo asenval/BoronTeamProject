@@ -24,7 +24,7 @@ namespace VotingSystem.Services.Models
         public virtual ICollection<QuestionGetModel> Questions { get; set; }
 
         [DataMember(Name = "tags")]
-        public virtual ICollection<TagGetModel> Tags { get; set; }
+        public virtual ICollection<TagModel> Tags { get; set; }
 
         [DataMember(Name = "state")]
         public virtual string State { get; set; }
