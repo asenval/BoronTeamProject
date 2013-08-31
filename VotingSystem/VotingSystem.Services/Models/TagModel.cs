@@ -7,7 +7,7 @@ using System.Web;
 namespace VotingSystem.Services.Models
 {
     [DataContract]
-    public class TagGetModel
+    public class TagModel
     {
         [DataMember(Name = "id")]
         public int Id { get; set; }
