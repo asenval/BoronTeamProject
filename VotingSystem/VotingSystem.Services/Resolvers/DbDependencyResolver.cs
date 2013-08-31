@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
 using System.Web.Http.Dependencies;
+using VotingSystem.Data;
+using VotingSystem.Services.Controllers;
 
 namespace VotingSystem.Services.Resolvers
 {
     public class DbDependencyResolver : IDependencyResolver
     {
-        //private static AllRepositories<StudentContext> allRepositories = new AllRepositories<StudentContext>();
+        private static IDbContextFactory<DbContext> contextFactory = new VotingSystemContextFactory();
 
         public IDependencyScope BeginScope()
         {
@@ -17,23 +21,18 @@ namespace VotingSystem.Services.Resolvers
 
         public object GetService(Type serviceType)
         {
-            throw new NotImplementedException();
-            /*if (serviceType == typeof(MarkController))
+            if (serviceType == typeof(UsersController))
             {
-                return new MarkController(allRepositories);
+                return new UsersController(contextFactory);
             }
-            else if (serviceType == typeof(StudentController))
+            /*else if (serviceType == typeof(StudentController))
             {
                 return new StudentController(allRepositories);
-            }
-            else if (serviceType == typeof(SchoolController))
-            {
-                return new SchoolController(allRepositories);
-            }
+            }*/
             else
             {
                 return null;
-            }*/
+            }
         }
 
         public IEnumerable<object> GetServices(Type serviceType)

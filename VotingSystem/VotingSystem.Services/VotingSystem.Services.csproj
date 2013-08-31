@@ -291,6 +291,20 @@
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\VotingSystem.Data\VotingSystem.Data.csproj">
+      <Project>{1825a2e6-ef2e-4c01-a4d8-daf640d4c01f}</Project>
+      <Name>VotingSystem.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VotingSystem.Model\VotingSystem.Model.csproj">
+      <Project>{a664d230-9ef4-4476-9142-87e2c38f1eef}</Project>
+      <Name>VotingSystem.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\VotingSystem.Repository\VotingSystem.Repository.csproj">
+      <Project>{13912e72-935c-47f1-bb30-6bdaab3fc8b0}</Project>
+      <Name>VotingSystem.Repository</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
