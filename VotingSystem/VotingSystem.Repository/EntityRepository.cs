@@ -5,59 +5,63 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using VotingSystem.Data;
 
-namespace VotingSystem.Repositories
+namespace VotingSystem.Repository
 {
     public class EntityRepository<T> : IRepository<T> where T : class
     {
-        protected DbContext Context { get; set; }
+        protected IDbContextFactory<DbContext> contextFactory;
 
-        protected IDbSet<T> DbSet { get; set; }
-        
-        public EntityRepository(DbContext context)
+        //protected DbContext Context { get; set; }
+
+        //protected IDbSet<T> DbSet { get; set; }
+
+        public EntityRepository(IDbContextFactory<DbContext> contextFactory)
         {
-            if (context == null)
+            if (contextFactory == null)
             {
                 throw new ArgumentException("An instance of DbContext is required to use this repository.", "context");
             }
 
-            this.Context = context;
-            this.DbSet = this.Context.Set<T>();
+            this.contextFactory = contextFactory;
         }
 
         public virtual IQueryable<T> Find(System.Linq.Expressions.Expression<Func<T, int, bool>> predicate)
         {
-            return this.DbSet.Where(predicate);
+            var context = contextFactory.Create();
+            return context.Set<T>().Where(predicate);
         }
 
         public virtual IQueryable<T> All()
         {
-            return this.DbSet;
+            var context = contextFactory.Create();
+            return context.Set<T>();
         }
 
         public virtual T Get(int id)
         {
-            //var db = new BlogSystemContext();
-            //return db.Set<T>().Find(id);
-            return this.DbSet.Find(id);
+            var context = contextFactory.Create();
+            return context.Set<T>().Find(id);
         }
 
         public virtual T Add(T item)
         {
-            this.DbSet.Add(item);
-            this.Context.SaveChanges();
+            var context = contextFactory.Create();
+            context.Set<T>().Add(item);
+            context.SaveChanges();
             return item;
         }
 
         public virtual void Delete(T entity)
         {
-            DbEntityEntry entry = this.Context.Entry(entity);
+            var context = contextFactory.Create();
+            DbEntityEntry entry = context.Entry(entity);
             if (entry.State == EntityState.Detached)
             {
-                this.DbSet.Attach(entity);
+                context.Set<T>().Attach(entity);
             }
 
-            this.DbSet.Remove(entity);
-            this.Context.SaveChanges();
+            context.Set<T>().Remove(entity);
+            context.SaveChanges();
         }
 
         public virtual void Delete(int id)
@@ -72,21 +76,21 @@ namespace VotingSystem.Repositories
 
         public virtual T Update(int id, T item)
         {
-            DbEntityEntry entry = this.Context.Entry(item);
+            var context = contextFactory.Create();
+            DbEntityEntry entry = context.Entry(item);
             if (entry.State == EntityState.Detached)
             {
-                this.DbSet.Attach(item);
+                context.Set<T>().Attach(item);
             }
 
             entry.State = EntityState.Modified;
 
-            this.Context.SaveChanges();
+            context.SaveChanges();
 
             return item;
         }
 
-
-        public virtual void SaveChanges()
+        /*public virtual void SaveChanges()
         {
             Context.SaveChanges();
         }
@@ -95,6 +99,6 @@ namespace VotingSystem.Repositories
         {
             if (Context != null)
                 Context.Dispose();
-        }
+        }*/
     }
 }

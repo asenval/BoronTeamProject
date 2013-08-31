@@ -3,10 +3,10 @@ using VotingSystem.Data;
 using System;
 using System.Linq;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Text;
-using System.Collections.Generic;
 
-namespace VotingSystem.Repositories
+namespace VotingSystem.Repository
 {
     public class UserRepository: EntityRepository<User>
     {
@@ -20,14 +20,15 @@ namespace VotingSystem.Repositories
         private const int MaxUsernameNicknameChars = 30;
         protected static Random rand = new Random();
 
-        public UserRepository(DbContext context)
-            : base(context)
+        public UserRepository(IDbContextFactory<DbContext> contextFactory)
+            : base(contextFactory)
         {
         }
 
         public User GetUserBySessionKey(string sessionKey)
         {
-            var result = this.Context.Set<User>().Where(x => x.SessionKey == sessionKey).FirstOrDefault();
+            var context = contextFactory.Create();
+            var result = context.Set<User>().Where(x => x.SessionKey == sessionKey).FirstOrDefault();
             return result;
         }
 
@@ -36,64 +37,61 @@ namespace VotingSystem.Repositories
             ValidateUsername(username);
             ValidateNickname(dispayName);
             ValidateAuthCode(authCode);
-            using (VotingSystemContext context = new VotingSystemContext())
+            var context = contextFactory.Create();
+
+            var usernameToLower = username.ToLower();
+            var displayNameToLower = dispayName.ToLower();
+
+            var dbUser = context.Set<User>().FirstOrDefault(u => u.Username == usernameToLower || u.DisplayName.ToLower() == displayNameToLower);
+
+            if (dbUser != null)
             {
-                var usernameToLower = username.ToLower();
-                var displayNameToLower = dispayName.ToLower();
-
-                var dbUser = context.Users.FirstOrDefault(u => u.Username == usernameToLower || u.DisplayName.ToLower() == displayNameToLower);
-
-                if (dbUser != null)
+                if (dbUser.Username.ToLower() == usernameToLower)
                 {
-                    if (dbUser.Username.ToLower() == usernameToLower)
-                    {
-                        throw new InvalidOperationException("Username already exists");
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException("Nickname already exists");
-                    }
+                    throw new InvalidOperationException("Username already exists");
                 }
-
-                dbUser = new User()
+                else
                 {
-                    Username = usernameToLower,
-                    DisplayName = dispayName,
-                    AuthCode = authCode
-                };
-                context.Users.Add(dbUser);
-                context.SaveChanges();
+                    throw new InvalidOperationException("Nickname already exists");
+                }
             }
+
+            dbUser = new User()
+            {
+                Username = usernameToLower,
+                DisplayName = dispayName,
+                AuthCode = authCode
+            };
+            context.Set<User>().Add(dbUser);
+            context.SaveChanges();
         }
+
         public string LoginUser(string username, string authCode, out string displayName)
         {
             ValidateUsername(username);
             ValidateAuthCode(authCode);
-            var context = new VotingSystemContext();
-            using (context)
+            var context = contextFactory.Create();
+            var usernameToLower = username.ToLower();
+            var user = context.Set<User>().FirstOrDefault(u => u.Username == usernameToLower && u.AuthCode == authCode);
+            if (user == null)
             {
-                var usernameToLower = username.ToLower();
-                var user = context.Users.FirstOrDefault(u => u.Username == usernameToLower && u.AuthCode == authCode);
-                if (user == null)
-                {
-                    throw new InvalidOperationException("Invalid username or password");
-                }
-
-                var sessionKey = GenerateSessionKey((int)user.Id);
-                user.SessionKey = sessionKey;
-                displayName = user.DisplayName;
-                context.SaveChanges();
-                return sessionKey;
+                throw new InvalidOperationException("Invalid username or password");
             }
+
+            var sessionKey = GenerateSessionKey((int)user.Id);
+            user.SessionKey = sessionKey;
+            displayName = user.DisplayName;
+            context.SaveChanges();
+            return sessionKey;
         }
 
         public int LoginUser(string sessionKey)
         {
             ValidateSessionKey(sessionKey);
-            var context = new VotingSystemContext();
+            var context = contextFactory.Create();
             using (context)
             {
-                var user = context.Users.FirstOrDefault(u => u.SessionKey == sessionKey);
+                var user = context.Set<User>().FirstOrDefault(u => u.SessionKey == sessionKey);
                 if (user == null)
                 {
                     throw new InvalidOperationException("Invalid user authentication");
@@ -105,35 +103,15 @@ namespace VotingSystem.Repositories
         public void LogoutUser(string sessionKey)
         {
             ValidateSessionKey(sessionKey);
-            var context = new VotingSystemContext();
-            using (context)
+            var context = contextFactory.Create();
+            var user = context.Set<User>().FirstOrDefault(u => u.SessionKey == sessionKey);
+            if (user == null)
             {
-                var user = context.Users.FirstOrDefault(u => u.SessionKey == sessionKey);
-                if (user == null)
-                {
-                    throw new InvalidOperationException("Invalid user authentication");
-                }
-                user.SessionKey = null;
-                context.SaveChanges();
+                throw new InvalidOperationException("Invalid user authentication");
             }
+            user.SessionKey = null;
+            context.SaveChanges();
         }
-
-        /*public static IQueryable<User> GetAllUsers()
-        {
-            var context = new BlogSystemContext();
-            using (context)
-            {
-                return context.Users;
-                //var users =
-                //    (from user in context.Users
-                //     select new UserModel()
-                //     {
-                //         Id = (int)user.Id,
-                //         Nickname = user.Nickname
-                //     });
-                //return users.ToList();
-            }
-        }*/
 
         private void ValidateSessionKey(string sessionKey)
         {

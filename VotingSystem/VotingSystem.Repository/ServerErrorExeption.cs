@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
 
-namespace VotingSystem.Repositories
+namespace VotingSystem.Repository
 {
     [DataContract(Name = "Error")]
     public class ServerErrorException : Exception

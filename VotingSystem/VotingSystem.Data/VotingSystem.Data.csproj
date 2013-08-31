@@ -47,6 +47,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VotingSystemContext.cs" />
+    <Compile Include="VotingSystemContextFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
