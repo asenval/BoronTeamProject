@@ -9,5 +9,7 @@ namespace VotingSystem.Model
 
         // ? results but for what exactly? for answer? :
         public virtual Answer Answer { get; set; }
+
+        public decimal Value { get; set; }
     }
 }

@@ -10,6 +10,7 @@ namespace VotingSystem.Data.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(VotingSystem.Data.VotingSystemContext context)

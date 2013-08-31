@@ -21,6 +21,9 @@ namespace VotingSystem.Model
         [Required]
         public virtual State State { get; set; }
 
+        [Required]
+        public virtual ICollection<Tag> Tags { get; set; }
+
         public Election()
         {
             this.Questions = new HashSet<Question>();
