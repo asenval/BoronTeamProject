@@ -8,6 +8,7 @@ window.vmFactory = (function () {
     function getLoggedViewModel() {
         var viewModel = {
             displayname: localStorage["displayname"],
+            myElections: electionsPersister.getMyElections(),
             logout: function () {
                 userPersister.logout().then(function () {
                     router.navigate("/login");

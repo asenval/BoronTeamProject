@@ -25,7 +25,6 @@ namespace VotingSystem.ConsoleClient
                     State = new State() { Name = "proactive" },
                     Title = "Welcome friends !",
                     Tags = new List<Tag>(),
-                    
                 };
 
                 context.Elections.Add(election);
