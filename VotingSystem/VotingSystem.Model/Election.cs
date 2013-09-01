@@ -18,8 +18,10 @@ namespace VotingSystem.Model
 
         [Required]
         public virtual ICollection<Question> Questions { get; set; }
-        
-        public virtual string InvitedUsersDisplayNameString { get; set; }
+
+        public string InvitedUsersDisplayNameString { get; set; }
+
+        public string VotedUsersDisplayNamesString { get; set; }
 
         [Required]
         public virtual State State { get; set; }
@@ -38,6 +40,7 @@ namespace VotingSystem.Model
             this.Questions = new HashSet<Question>();
             this.Tags = new HashSet<Tag>();
             this.InvitedUsersDisplayNameString = "";
+            this.VotedUsersDisplayNamesString = "";
         }
     }
 }
