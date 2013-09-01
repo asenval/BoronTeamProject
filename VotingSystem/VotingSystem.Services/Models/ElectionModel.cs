@@ -33,14 +33,15 @@ namespace VotingSystem.Services.Models
         [DataMember(Name = "status")]
         public virtual string StatusName { get; set; }
 
-        [DataMember(Name = "user")]
-        public virtual UserModel User { get; set; }
+        [DataMember(Name = "ownerNickname")]
+        public virtual string Owner { get; set; }
 
         public ElectionModel(Election election)
         {
             CopyClassProperties.Fill(this, election);
             this.StateName = election.State.Name;
             this.StatusName = election.Status.Name;
+            this.Owner = election.User.DisplayName;
             this.Questions = new HashSet<QuestionGetModel>();
 
             foreach (var question in election.Questions)
