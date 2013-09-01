@@ -92,16 +92,12 @@ window.persisters = (function () {
     var ElectionsPersister = Class.create({
         init: function (rootUrl) {
             this.rootUrl = rootUrl + "/elections";
-            this.currentUser = {
-                displayname: localStorage["displayname"],
-                sessioneKey: localStorage["sessionKey"]
-            };
         },
 
         getMyElections: function () {
             //var sessionKey = localStorage["sessionKey"];
             //var url = this.rootUrl + "/" + sessionKey;
-            var url = this.rootUrl + "/";
+            var url = this.rootUrl;
             return httpRequester.getJSON(url)
 		    .then(function (data) {
 		        console.log(data);
