@@ -24,12 +24,11 @@ namespace VotingSystem.Model
         public virtual ICollection<Answer> Answers { get; set; }
 
         [Required]
-        public virtual ICollection<Result> Results { get; set; }
+        public virtual Result Results { get; set; }
 
         public Question()
         {
             this.Answers = new HashSet<Answer>();
-            this.Results = new HashSet<Result>();
         }
     }
 }
