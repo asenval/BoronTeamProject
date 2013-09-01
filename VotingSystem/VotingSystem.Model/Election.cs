@@ -17,13 +17,9 @@ namespace VotingSystem.Model
         public DateTime EndDate { get; set; }
 
         [Required]
-        public virtual User User { get; set; }
-
-        [Required]
         public virtual ICollection<Question> Questions { get; set; }
-
-        [Required]
-        public virtual ICollection<Tag> Tags { get; set; }
+        
+        public virtual string InvitedUsersDisplayNameString { get; set; }
 
         [Required]
         public virtual State State { get; set; }
@@ -31,10 +27,17 @@ namespace VotingSystem.Model
         [Required]
         public virtual Status Status { get; set; }
 
+        [Required]
+        public virtual User User { get; set; }
+
+        [Required]
+        public virtual ICollection<Tag> Tags { get; set; }
+
         public Election()
         {
             this.Questions = new HashSet<Question>();
             this.Tags = new HashSet<Tag>();
+            this.InvitedUsersDisplayNameString = "";
         }
     }
 }

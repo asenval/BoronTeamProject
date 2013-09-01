@@ -19,8 +19,8 @@ namespace VotingSystem.Services.Models
         [DataMember(Name = "answers")]
         public virtual ICollection<AnswerModel> Answers { get; set; }
 
-        [DataMember(Name = "voteType")]
-        public string VoteType { get; set; }
+        [DataMember(Name = "questionType")]
+        public string QuestionType { get; set; }
 
         public QuestionGetModel(Question question)
         {

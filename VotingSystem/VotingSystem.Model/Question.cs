@@ -16,7 +16,7 @@ namespace VotingSystem.Model
         public string Content { get; set; }
 
         [Required]
-        public string VoteType { get; set; }
+        public string QuestionType { get; set; }
 
         public virtual Election Election { get; set; }
 

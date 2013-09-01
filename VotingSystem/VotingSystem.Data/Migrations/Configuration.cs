@@ -73,6 +73,7 @@ namespace VotingSystem.Data.Migrations
 
             context.Elections.AddOrUpdate(x => x.Title, new Election()
             {
+                User = context.Users.FirstOrDefault(x => x.DisplayName == "UserDisplayname1"),
                 Title = "Election1",
                 Status = context.Statuses.FirstOrDefault(x => x.Name == "Open"),
                 StartDate = new DateTime(2013, 8, 1),
@@ -83,7 +84,7 @@ namespace VotingSystem.Data.Migrations
                     new Question 
                     {
                         Content = "What is life?",
-                        VoteType =  "Boolean",
+                        QuestionType =  "Boolean",
                         Answers = new List<Answer>()
                         {
                             new Answer 
@@ -103,7 +104,7 @@ namespace VotingSystem.Data.Migrations
                     new Question 
                     {
                         Content = "Why do I have to go to work?",
-                        VoteType =  "Boolean",
+                        QuestionType =  "Boolean",
                         Answers = new List<Answer>()
                         {
                             new Answer 
@@ -127,6 +128,7 @@ namespace VotingSystem.Data.Migrations
 
             context.Elections.AddOrUpdate(x => x.Title, new Election()
             {
+                User = context.Users.FirstOrDefault(x => x.DisplayName == "UserDisplayname1"),
                 Title = "Election222",
                 Status = context.Statuses.FirstOrDefault(x => x.Name == "Open"),
                 StartDate = new DateTime(2013, 8, 1),
@@ -137,7 +139,7 @@ namespace VotingSystem.Data.Migrations
                     new Question 
                     {
                         Content = "What is life?",
-                        VoteType =  "Boolean",
+                        QuestionType =  "Boolean",
                         Answers = new List<Answer>()
                         {
                             new Answer 
@@ -157,7 +159,7 @@ namespace VotingSystem.Data.Migrations
                     new Question 
                     {
                         Content = "Why do I have to go to work?",
-                        VoteType =  "Boolean",
+                        QuestionType =  "Boolean",
                         Answers = new List<Answer>()
                         {
                             new Answer 
