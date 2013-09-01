@@ -11,10 +11,8 @@ namespace VotingSystem.Model
         [Required]
         public string Content { get; set; }
 
-        [Required]
         public virtual ICollection<Vote> Votes { get; set; }
 
-        [Required]
         public virtual Question Question { get; set; }
 
         public Answer()

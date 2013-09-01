@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,14 +18,10 @@ namespace VotingSystem.Model
         [Required]
         public string VoteType { get; set; }
 
-        [Required]
         public virtual Election Election { get; set; }
 
-        [Required]
         public virtual ICollection<Answer> Answers { get; set; }
-
-        [Required]
-        public virtual Result Results { get; set; }
+        public virtual Result Result { get; set; }
 
         public Question()
         {
