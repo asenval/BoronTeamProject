@@ -32,5 +32,10 @@ namespace VotingSystem.Services.Models
                 this.Answers.Add(new AnswerModel(answer));
             }
         }
+
+        public QuestionGetModel()
+        {
+            this.Answers = new HashSet<AnswerModel>();
+        }
     }
 }

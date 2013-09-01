@@ -16,7 +16,7 @@ namespace VotingSystem.Services.Models
         [DataMember(Name = "title")]
         public string Title { get; set; }
         [DataMember(Name = "startDate")]
-        public DateTime StartDate { get; set; }
+        public DateTime? StartDate { get; set; }
 
         [DataMember(Name = "endDate")]
         public DateTime EndDate { get; set; }
@@ -48,6 +48,11 @@ namespace VotingSystem.Services.Models
             {
                 this.Questions.Add(new QuestionGetModel(question));
             }
+        }
+
+        public ElectionModel()
+        {
+            this.Questions = new HashSet<QuestionGetModel>();
         }
     }
 }

@@ -55,6 +55,8 @@
     <Compile Include="QuestionsRepository.cs" />
     <Compile Include="ResultRepository.cs" />
     <Compile Include="ServerErrorExeption.cs" />
+    <Compile Include="StatesRepository.cs" />
+    <Compile Include="StatusesRepository.cs" />
     <Compile Include="UnitOfWork.cs" />
     <Compile Include="UserRepository.cs" />
     <Compile Include="VotesRepository.cs" />

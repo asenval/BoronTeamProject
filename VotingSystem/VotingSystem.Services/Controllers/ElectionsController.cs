@@ -209,5 +209,51 @@ namespace VotingSystem.Services.Controllers
             
             return Request.CreateResponse(HttpStatusCode.Created);
         }
+
+        [HttpPost]
+        public HttpResponseMessage Post([FromBody]ElectionModel electionModel,
+            [ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey)
+        {
+            var user = this.data.Users.GetUserBySessionKey(sessionKey);
+            if (user == null)
+            {
+                var httpError = new HttpError("Invalid username or password.");
+                return this.Request.CreateResponse(HttpStatusCode.BadRequest, httpError);
+            }
+
+            var election = new Election();
+            CopyClassProperties.Fill(election, electionModel);
+            foreach (var questionModel in electionModel.Questions)
+            {
+                var question = new Question();
+                CopyClassProperties.Fill(question, questionModel);
+                election.Questions.Add(question);
+                foreach (var answerModel in question.Answers)
+                {
+                    var answer = new Question();
+                    CopyClassProperties.Fill(answer, answerModel);
+                    election.Questions.Add(answer);
+                }
+            }
+
+            election.User = user;
+            election.Status = this.data.Status.Find(s => s.Name == electionModel.StatusName).FirstOrDefault();
+            election.State = this.data.State.Find(s => s.Name == electionModel.StateName).FirstOrDefault();
+
+            if (election.StartDate == null)
+            {
+                electionModel.StartDate = DateTime.Now;
+                election.StartDate = electionModel.StartDate;
+            }
+
+            this.data.Elections.Add(election);
+
+            electionModel.Owner = user.DisplayName;
+            var response = Request.CreateResponse<ElectionModel>(HttpStatusCode.OK, electionModel);
+            var resourceLink = Url.Link("ElectionsApi", new { id = election.Id });
+            response.Headers.Location = new Uri(resourceLink);
+
+            return response;
+        }
     }
 }

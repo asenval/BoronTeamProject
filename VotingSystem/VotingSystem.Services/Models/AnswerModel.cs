@@ -21,5 +21,9 @@ namespace VotingSystem.Services.Models
         {
             CopyClassProperties.Fill(this, answer);
         }
+
+        public AnswerModel()
+        {
+        }
     }    
 }
