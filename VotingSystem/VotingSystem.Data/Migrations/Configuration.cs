@@ -7,12 +7,12 @@ namespace VotingSystem.Data.Migrations
     using System.Linq;
     using VotingSystem.Model;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<VotingSystem.Data.VotingSystemContext>
+    internal sealed class Configuration : DropCreateDatabaseIfModelChanges<VotingSystem.Data.VotingSystemContext> //DbMigrationsConfiguration
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
+        //    AutomaticMigrationsEnabled = true;
+        //    AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(VotingSystem.Data.VotingSystemContext context)

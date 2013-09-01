@@ -17,7 +17,7 @@ namespace VotingSystem.Services.Models
         public string Content { get; set; }
 
         [DataMember(Name = "answers")]
-        public virtual ICollection<AnswerGetModel> Answers { get; set; }
+        public virtual ICollection<AnswerModel> Answers { get; set; }
 
         [DataMember(Name = "voteType")]
         public string VoteType { get; set; }
@@ -25,11 +25,11 @@ namespace VotingSystem.Services.Models
         public QuestionGetModel(Question question)
         {
             CopyClassProperties.Fill(this, question);
-            this.Answers = new HashSet<AnswerGetModel>();
+            this.Answers = new HashSet<AnswerModel>();
 
             foreach (var answer in question.Answers)
             {
-                this.Answers.Add(new AnswerGetModel(answer));
+                this.Answers.Add(new AnswerModel(answer));
             }
         }
     }
