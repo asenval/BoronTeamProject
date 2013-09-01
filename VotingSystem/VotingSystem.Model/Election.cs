@@ -17,16 +17,19 @@ namespace VotingSystem.Model
         public DateTime EndDate { get; set; }
 
         [Required]
+        public virtual User User { get; set; }
+
+        [Required]
         public virtual ICollection<Question> Questions { get; set; }
+
+        [Required]
+        public virtual ICollection<Tag> Tags { get; set; }
 
         [Required]
         public virtual State State { get; set; }
 
         [Required]
         public virtual Status Status { get; set; }
-
-        [Required]
-        public virtual ICollection<Tag> Tags { get; set; }
 
         public Election()
         {
