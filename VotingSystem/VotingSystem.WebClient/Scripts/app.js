@@ -8,33 +8,26 @@
     var appLayout = new kendo.Layout('<div id="main-content"></div>');
     var router = new kendo.Router();
 
-    router.route("/", function () {
+    function checkLoggedIn(func) {
         if (!userPersister.currentUser.sessioneKey) {
             router.navigate("/login");
         }
         else {
-            viewsFactory.getLoggedView()
-               .then(function (loggedViewHtml) {
-                   var loggedVm = vmFactory.getLoggedViewModel();
-                   var view = new kendo.View(loggedViewHtml, { model: loggedVm });
-                   appLayout.showIn("#main-content", view);
-               });
+            func();
         }
-    });
+    }
 
-    router.route("/login", function () {
-        if (userPersister.isUserLogged()) {
-            router.navigate("/");
-        }
-        else {
-            viewsFactory.getLoginView()
-				.then(function (loginViewHtml) {
-				    var loginVm = vmFactory.getLoginViewModel();
-				    var view = new kendo.View(loginViewHtml, { model: loginVm });
-				    appLayout.showIn("#main-content", view);
-				});
-        }
-    });
+    function renderRoute(getView, getModel) {
+        getView().then(function (viewHtml) {
+            var model = getModel();
+            var view = new kendo.View(viewHtml, { model: model });
+            appLayout.showIn("#main-content", view);
+        });
+   };
+
+   router.route("/", checkLoggedIn(renderRoute(viewsFactory.getLoggedView, vmFactory.getLoggedViewModel)));
+   
+   router.route("/login", checkLoggedIn(renderRoute(viewsFactory.getLoginView, vmFactory.getLoginViewModel)));
 
     $(function () {
         appLayout.render("#application");
