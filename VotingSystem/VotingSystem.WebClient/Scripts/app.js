@@ -9,7 +9,7 @@
     var router = new kendo.Router();
 
     router.route("/", function () {
-        if (!userPersister.currentUser.sessioneKey) {
+        if (!localStorage["sessionKey"]) {
             router.navigate("/login");
         }
         else {
