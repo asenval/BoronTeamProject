@@ -21,7 +21,7 @@ namespace VotingSystem.Services.Controllers
             this.data = new UnitOfWork(contextFactory);
         }
 
-        /*[HttpPost]
+        [HttpGet]
         [ActionName("get")]
         public IEnumerable<ElectionModel> GetAll()
         {
@@ -30,11 +30,12 @@ namespace VotingSystem.Services.Controllers
             //{
             //    throw new InvalidOperationException("Invalid username or password");
             //}
-            var elections = this.data.Elections.All();
+            IQueryable<Election> elections = this.data.Elections.All().Include("Questions.Answers");
 
-            return elections.ToList().Select(x => new ElectionModel (x));
-            }
-        }*/
+            var result = elections.ToList().Select(x => new ElectionModel(x));
+            return result;
+            
+        }
 
     }
 }

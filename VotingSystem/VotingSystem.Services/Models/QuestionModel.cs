@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Text;
+using VotingSystem.Model;
 
 namespace VotingSystem.Services.Models
 {
@@ -16,14 +17,20 @@ namespace VotingSystem.Services.Models
         public string Content { get; set; }
 
         [DataMember(Name = "answers")]
-        public virtual ICollection<AnswerGetModel> AnswersModels { get; set; }
+        public virtual ICollection<AnswerGetModel> Answers { get; set; }
 
         [DataMember(Name = "voteType")]
         public string VoteType { get; set; }
 
-        public QuestionGetModel()
+        public QuestionGetModel(Question question)
         {
-            this.AnswersModels = new HashSet<AnswerGetModel>();
+            CopyClassProperties.Fill(this, question);
+            this.Answers = new HashSet<AnswerGetModel>();
+
+            foreach (var answer in question.Answers)
+            {
+                this.Answers.Add(new AnswerGetModel(answer));
+            }
         }
     }
 }

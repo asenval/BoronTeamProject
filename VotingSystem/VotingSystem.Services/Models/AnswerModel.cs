@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Web;
+using VotingSystem.Model;
 
 namespace VotingSystem.Services.Models
 {
@@ -15,5 +16,10 @@ namespace VotingSystem.Services.Models
 
         [DataMember(Name = "content")]
         public string Content { get; set; }
-    }
+
+        public AnswerGetModel(Answer answer)
+        {
+            CopyClassProperties.Fill(this, answer);
+        }
+    }    
 }

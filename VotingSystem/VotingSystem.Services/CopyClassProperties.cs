@@ -16,6 +16,10 @@ namespace VotingSystem.Services
             foreach (PropertyInfo mine in myProps)
             {
                 PropertyInfo his;
+                if (typeof(System.Collections.IEnumerable).IsAssignableFrom(mine.PropertyType) &&
+                    typeof(string) != mine.PropertyType)
+                    continue;
+                
                 if (hisProps.TryGetValue(mine.Name, out his))
                 {
                     var value = his.GetValue(from); 
