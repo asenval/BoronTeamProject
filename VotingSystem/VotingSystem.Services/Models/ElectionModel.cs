@@ -30,9 +30,10 @@ namespace VotingSystem.Services.Models
         [DataMember(Name = "state")]
         public virtual string State { get; set; }
 
-        /*public ElectionModel(Election election)
+        public ElectionModel(Election election)
         {
-
-        }*/
+            this.Questions = new HashSet<QuestionGetModel>();
+            this.Tags = new HashSet<TagModel>();
+        }
     }
 }
