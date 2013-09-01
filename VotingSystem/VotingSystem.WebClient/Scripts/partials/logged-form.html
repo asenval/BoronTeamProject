@@ -7,12 +7,13 @@
     <section id="user-panel">
         <div data-bind="text: displayname"></div>
         <button data-bind="click:logout">Logout</button>
+        <button data-bind="click:createElection">Create election</button>
     </section>
-    <section>
-        <div id="blog-posts-holder">
-            <h1>Posts</h1>
-        </div>
+
+    <section id="my-elections">
+        
     </section>
+
     <script type="text/x-kendo-tmpl" id="template">
         <div class="post">
             <h3>#:Title#</h3>

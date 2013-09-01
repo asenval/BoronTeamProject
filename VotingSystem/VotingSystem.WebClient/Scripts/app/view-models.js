@@ -2,6 +2,7 @@
 window.vmFactory = (function () {
     var dataPersister = persisters.get("http://localhost:4414/api");
     var userPersister = dataPersister.userPersister;
+    var electionsPersister = dataPersister.electionsPersister;
     var router = new kendo.Router();
 
     function getLoggedViewModel() {
@@ -11,6 +12,16 @@ window.vmFactory = (function () {
                 userPersister.logout().then(function () {
                     router.navigate("/login");
                 });
+            },
+            createElection: function () {
+                var electionData = {
+                };
+                electionsPersister.createElection(electionData).then(function (data) {
+                    console.log(data);
+                    router.navigate("/");
+                }, function (errMsg) {
+                    console.log(errMsg);
+                })
             }
         };
 
