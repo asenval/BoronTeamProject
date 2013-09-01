@@ -28,7 +28,6 @@ namespace VotingSystem.Repository
         {
             var context = contextFactory.Create();
             var result = context.Set<User>().Where(x => x.SessionKey == sessionKey).FirstOrDefault();
-            context.Entry(result).State = System.Data.EntityState.Detached;
             return result;
         }
 
