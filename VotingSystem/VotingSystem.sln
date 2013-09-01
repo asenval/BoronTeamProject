@@ -16,6 +16,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{7F79A2
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingSystem.WebClient", "VotingSystem.WebClient\VotingSystem.WebClient.csproj", "{4E545115-DC9D-4A30-9897-BA6C1C9CFD96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingSystem.ConsoleClient", "VotingSystem.ConsoleClient\VotingSystem.ConsoleClient.csproj", "{261900DE-4EB6-40B0-BF04-69F72CD66CC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +42,14 @@ Global
 		{13912E72-935C-47F1-BB30-6BDAAB3FC8B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13912E72-935C-47F1-BB30-6BDAAB3FC8B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13912E72-935C-47F1-BB30-6BDAAB3FC8B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E545115-DC9D-4A30-9897-BA6C1C9CFD96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E545115-DC9D-4A30-9897-BA6C1C9CFD96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E545115-DC9D-4A30-9897-BA6C1C9CFD96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E545115-DC9D-4A30-9897-BA6C1C9CFD96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{261900DE-4EB6-40B0-BF04-69F72CD66CC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{261900DE-4EB6-40B0-BF04-69F72CD66CC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{261900DE-4EB6-40B0-BF04-69F72CD66CC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{261900DE-4EB6-40B0-BF04-69F72CD66CC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
