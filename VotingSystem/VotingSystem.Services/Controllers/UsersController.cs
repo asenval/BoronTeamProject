@@ -80,7 +80,7 @@ namespace VotingSystem.Services.Controllers
                 UserRepository userRepository = data.Users;
                 userRepository.LogoutUser(sessionKey);
 
-                return Request.CreateResponse(HttpStatusCode.OK);
+                return Request.CreateResponse(HttpStatusCode.NoContent);
             }
             catch (InvalidOperationException e)
             {

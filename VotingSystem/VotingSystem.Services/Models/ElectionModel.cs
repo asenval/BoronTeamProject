@@ -28,12 +28,22 @@ namespace VotingSystem.Services.Models
         public virtual ICollection<TagModel> Tags { get; set; }
 
         [DataMember(Name = "state")]
-        public virtual string State { get; set; }
+        public virtual string StateName { get; set; }
+
+        [DataMember(Name = "status")]
+        public virtual string StatusName { get; set; }
 
         public ElectionModel(Election election)
         {
+            CopyClassProperties.Fill(this, election);
+            this.StateName = election.State.Name;
+            this.StatusName = election.Status.Name;
             this.Questions = new HashSet<QuestionGetModel>();
-            this.Tags = new HashSet<TagModel>();
+
+            foreach (var question in election.Questions)
+            {
+                this.Questions.Add(new QuestionGetModel(question));
+            }
         }
     }
 }

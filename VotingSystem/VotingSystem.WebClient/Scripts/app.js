@@ -9,7 +9,7 @@
     var router = new kendo.Router();
 
     function checkLoggedIn(func) {
-        if (!userPersister.currentUser.sessioneKey) {
+        if (!userPersister.isUserLogged()) {
             router.navigate("/login");
         }
         else {
