@@ -11,10 +11,14 @@ namespace VotingSystem.ConsoleClient
         {
             using (var context = new VotingSystemContext())
             {
-                foreach (var user in context.Users)
-                {
-                    user.SessionKey = null;
-                }
+                //foreach (var election in context.Elections)
+                //{
+                //    Console.WriteLine();
+                //}
+                //foreach (var user in context.Users)
+                //{
+                //    user.SessionKey = null;
+                //}
 
                 var election = new Election()
                 {
@@ -27,9 +31,9 @@ namespace VotingSystem.ConsoleClient
                     Tags = new List<Tag>(),
                     User = new User()
                     {
-                        DisplayName = "rami91",
+                        DisplayName = "asadaj",
                         AuthCode = "a9dd14ba6f55cec1b3024d78fccfa5b52fdb6cfa",
-                        Username = "ramito"
+                        Username = "ramito",
                     }
                 };
 

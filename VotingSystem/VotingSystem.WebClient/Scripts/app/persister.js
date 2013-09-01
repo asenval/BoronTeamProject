@@ -116,7 +116,7 @@ window.persisters = (function () {
                 var myElections = [];
                 for (var i = 0; i < elections.length; i++) {
                     var election = elections[i];
-                    if (election.user.username == currentUsername) {
+                    if (election.ownerNickname == localStorage["displayname"]) {
                         myElections.push(election);
                     }
                 }

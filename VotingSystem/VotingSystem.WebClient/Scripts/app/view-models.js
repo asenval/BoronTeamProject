@@ -6,27 +6,31 @@ window.vmFactory = (function () {
     var router = new kendo.Router();
     
     function getLoggedViewModel() {
-        var viewModel = {
-            displayname: localStorage["displayname"],
-            myElections: electionsPersister.getMyElections(),
-            logout: function () {
-                userPersister.logout().then(function () {
-                    router.navigate("/login");
-                });
-            },
-            createElection: function () {
-                var electionData = {
-                };
-                electionsPersister.createElection(electionData).then(function (data) {
-                    console.log(data);
-                    router.navigate("/");
-                }, function (errMsg) {
-                    console.log(errMsg);
-                })
-            }
-        };
 
-        return kendo.observable(viewModel);
+        return electionsPersister.getMyElections().then(function (elections) {
+            var viewModel = {
+                displayname: localStorage["displayname"],
+                myElections: elections,
+                logout: function () {
+                    userPersister.logout().then(function () {
+                        router.navigate("/login");
+                    });
+                },
+                createElection: function () {
+                    var electionData = {
+                    };
+                    electionsPersister.createElection(electionData).then(function (data) {
+                        console.log(data);
+                        router.navigate("/");
+                    }, function (errMsg) {
+                        console.log(errMsg);
+                    })
+                }
+            }
+            var obs = kendo.observable(viewModel);
+            return obs;
+        });
+
     }
 
     function getLoginViewModel() {
@@ -54,8 +58,9 @@ window.vmFactory = (function () {
                 });;
             }
         };
-
-        return kendo.observable(viewModel);
+        return new RSVP.Promise(function (res, rej) {
+            res(kendo.observable(viewModel));
+        });
     };
 
     return {
