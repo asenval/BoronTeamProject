@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using VotingSystem.Data;
+using VotingSystem.Data.Migrations;
 using VotingSystem.Services.Resolvers;
 
 namespace VotingSystem.Services
@@ -17,6 +20,14 @@ namespace VotingSystem.Services
     {
         protected void Application_Start()
         {
+            Database.SetInitializer<VotingSystemContext>(new Configuration());
+            var context = new VotingSystem.Data.VotingSystemContext();
+            using (context)
+            {
+
+                context.Database.Initialize(true);
+            }
+
             AreaRegistration.RegisterAllAreas();
 
             WebApiConfig.Register(GlobalConfiguration.Configuration);
