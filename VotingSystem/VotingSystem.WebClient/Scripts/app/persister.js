@@ -112,17 +112,16 @@ window.persisters = (function () {
         },
 
         getMyElections: function () {
-            var myElections = [];
-            this.getAllElections().then(function (elections) {
+            return this.getAllElections().then(function (elections) {
+                var myElections = [];
                 for (var i = 0; i < elections.length; i++) {
                     var election = elections[i];
                     if (election.owner == currentUsername) {
                         myElections.push(election);
                     }
                 }
+                return myElections;
             });
-
-            return myElections;
         }
     });
 

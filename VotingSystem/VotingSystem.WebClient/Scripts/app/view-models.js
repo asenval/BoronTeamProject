@@ -4,7 +4,7 @@ window.vmFactory = (function () {
     var userPersister = dataPersister.userPersister;
     var electionsPersister = dataPersister.electionsPersister;
     var router = new kendo.Router();
-
+    
     function getLoggedViewModel() {
         var viewModel = {
             displayname: localStorage["displayname"],
