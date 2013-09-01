@@ -12,7 +12,7 @@ namespace VotingSystem.Model
         public string Content { get; set; }
 
         public virtual ICollection<Vote> Votes { get; set; }
-
+        
         public virtual Question Question { get; set; }
 
         public Answer()

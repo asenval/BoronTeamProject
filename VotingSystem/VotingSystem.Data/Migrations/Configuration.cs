@@ -69,6 +69,8 @@ namespace VotingSystem.Data.Migrations
                 Name = "Unlisted",
             });
 
+            context.SaveChanges();
+
             context.Elections.AddOrUpdate(x => x.Title, new Election()
             {
                 Title = "Election1",
