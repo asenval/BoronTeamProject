@@ -21,6 +21,7 @@ namespace VotingSystem.Model
         public virtual Election Election { get; set; }
 
         public virtual ICollection<Answer> Answers { get; set; }
+
         public virtual Result Result { get; set; }
 
         public Question()

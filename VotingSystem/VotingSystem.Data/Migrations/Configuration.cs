@@ -44,14 +44,14 @@ namespace VotingSystem.Data.Migrations
                 Username = "User2"
             });
 
-            context.Statuses.AddOrUpdate(x => x.Title, new Status
+            context.Statuses.AddOrUpdate(x => x.Name, new Status
             {
-                Title = "Open",
+                Name = "Open",
             });
 
-            context.Statuses.AddOrUpdate(x => x.Title, new Status
+            context.Statuses.AddOrUpdate(x => x.Name, new Status
             {
-                Title = "Closed",
+                Name = "Closed",
             });
 
             context.States.AddOrUpdate(x => x.Name, new State
@@ -74,7 +74,7 @@ namespace VotingSystem.Data.Migrations
             context.Elections.AddOrUpdate(x => x.Title, new Election()
             {
                 Title = "Election1",
-                Status = context.Statuses.FirstOrDefault(x => x.Title == "Open"),
+                Status = context.Statuses.FirstOrDefault(x => x.Name == "Open"),
                 StartDate = new DateTime(2013, 8, 1),
                 EndDate = new DateTime(2013, 9, 1),
                 State = context.States.FirstOrDefault(x => x.Name == "Public"),
@@ -122,6 +122,8 @@ namespace VotingSystem.Data.Migrations
                     }
                 }
             });
+
+            context.SaveChanges();
         }
     }
 }
