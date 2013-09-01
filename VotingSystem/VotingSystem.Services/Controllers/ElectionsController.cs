@@ -11,6 +11,7 @@ using System.Data.Entity;
 using VotingSystem.Model;
 using System.Web.Http.ValueProviders;
 using VotingSystem.Services.Attributes;
+using System.Transactions;
 
 namespace VotingSystem.Services.Controllers
 {
@@ -68,23 +69,61 @@ namespace VotingSystem.Services.Controllers
                 var httpError = new HttpError("No such election exists.");
                 var response = Request.CreateResponse(HttpStatusCode.BadRequest, httpError);
                 throw new HttpResponseException(response);
-                //    var httpError = new HttpError("No such election exists.");
-                //    return this.Request.CreateResponse(HttpStatusCode.BadRequest, httpError);
             }
 
             var electionModel = new ElectionModel(election);
-            //var response = Request.CreateResponse<ElectionModel>(HttpStatusCode.OK, electionModel);
-            //var resourceLink = Url.Link("ElectionsApi", new { id = election.Id });
-            //response.Headers.Location = new Uri(resourceLink);
-
-            //return response;
             return electionModel;
         }
 
         [HttpPost]
+        public HttpResponseMessage Post([FromBody]ElectionModel electionModel,
+            [ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey)
+        {
+            var user = this.data.Users.GetUserBySessionKey(sessionKey);
+            if (user == null)
+            {
+                var httpError = new HttpError("Invalid username or password.");
+                return this.Request.CreateResponse(HttpStatusCode.BadRequest, httpError);
+            }
+
+            var election = new Election();
+            CopyClassProperties.Fill(election, electionModel);
+            foreach (var questionModel in electionModel.Questions)
+            {
+                var question = new Question();
+                CopyClassProperties.Fill(question, questionModel);
+                election.Questions.Add(question);
+                foreach (var answerModel in question.Answers)
+                {
+                    var answer = new Question();
+                    CopyClassProperties.Fill(answer, answerModel);
+                    election.Questions.Add(answer);
+                }
+            }
+
+            election.User = user;
+            election.Status = this.data.Status.Find(s => s.Name == electionModel.StatusName).FirstOrDefault();
+            election.State = this.data.State.Find(s => s.Name == electionModel.StateName).FirstOrDefault();
+
+            if (election.StartDate == null)
+            {
+                electionModel.StartDate = DateTime.Now;
+                election.StartDate = electionModel.StartDate;
+            }
+
+            this.data.Elections.Add(election);
+
+            electionModel.Owner = user.DisplayName;
+            var response = Request.CreateResponse<ElectionModel>(HttpStatusCode.OK, electionModel);
+            var resourceLink = Url.Link("ElectionsApi", new { id = election.Id });
+            response.Headers.Location = new Uri(resourceLink);
+
+            return response;
+        }
+
+        [HttpPost]
         [ActionName("votes")]
-        public HttpResponseMessage PostVotes(int electionId,
-            ICollection<VoteModel> voteModels,
+        public HttpResponseMessage PostVotes(int electionId, ICollection<VoteModel> voteModels,
             [ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey)
         {
             var election = this.data.Elections.Get(electionId);
@@ -97,7 +136,7 @@ namespace VotingSystem.Services.Controllers
             }
 
             // validate the election is not closed
-            if (election.Status.Name == ElectionStatusClosed)
+            if (election.Status.Name == ElectionStatusClosed || election.EndDate > DateTime.Now)
             {
                 var httpError = new HttpError("Election is closed. Cannot vote.");
                 var response = this.Request.CreateResponse(HttpStatusCode.BadRequest,
@@ -117,7 +156,7 @@ namespace VotingSystem.Services.Controllers
             } 
             else if (user == null)
             {
-                var httpError = new HttpError("User is not logged in.");
+                var httpError = new HttpError("You are not logged in.");
                 var response = this.Request.CreateResponse(
                     HttpStatusCode.Unauthorized, httpError);
                 return response;
@@ -168,6 +207,8 @@ namespace VotingSystem.Services.Controllers
             }
 
             var currentDateTime = DateTime.Now;
+            TransactionScope tran = new TransactionScope();
+
             foreach (var voteModel in voteModels)
             {
                 // confirm that we are trying to put a value to an answer that
@@ -205,55 +246,11 @@ namespace VotingSystem.Services.Controllers
 
                 this.data.Votes.Add(newVote);
             }
-            
+
+            tran.Complete();
             
             return Request.CreateResponse(HttpStatusCode.Created);
         }
 
-        [HttpPost]
-        public HttpResponseMessage Post([FromBody]ElectionModel electionModel,
-            [ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey)
-        {
-            var user = this.data.Users.GetUserBySessionKey(sessionKey);
-            if (user == null)
-            {
-                var httpError = new HttpError("Invalid username or password.");
-                return this.Request.CreateResponse(HttpStatusCode.BadRequest, httpError);
-            }
-
-            var election = new Election();
-            CopyClassProperties.Fill(election, electionModel);
-            foreach (var questionModel in electionModel.Questions)
-            {
-                var question = new Question();
-                CopyClassProperties.Fill(question, questionModel);
-                election.Questions.Add(question);
-                foreach (var answerModel in question.Answers)
-                {
-                    var answer = new Question();
-                    CopyClassProperties.Fill(answer, answerModel);
-                    election.Questions.Add(answer);
-                }
-            }
-
-            election.User = user;
-            election.Status = this.data.Status.Find(s => s.Name == electionModel.StatusName).FirstOrDefault();
-            election.State = this.data.State.Find(s => s.Name == electionModel.StateName).FirstOrDefault();
-
-            if (election.StartDate == null)
-            {
-                electionModel.StartDate = DateTime.Now;
-                election.StartDate = electionModel.StartDate;
-            }
-
-            this.data.Elections.Add(election);
-
-            electionModel.Owner = user.DisplayName;
-            var response = Request.CreateResponse<ElectionModel>(HttpStatusCode.OK, electionModel);
-            var resourceLink = Url.Link("ElectionsApi", new { id = election.Id });
-            response.Headers.Location = new Uri(resourceLink);
-
-            return response;
-        }
     }
 }
