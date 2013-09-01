@@ -11,7 +11,6 @@ using System.Data.Entity;
 using System.Web.Http.ValueProviders;
 using VotingSystem.Services.Attributes;
 
-
 namespace VotingSystem.Services.Controllers
 {
     public class UsersController : ApiController

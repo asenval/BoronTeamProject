@@ -33,6 +33,9 @@ namespace VotingSystem.Services.Models
         [DataMember(Name = "status")]
         public virtual string StatusName { get; set; }
 
+        [DataMember(Name = "user")]
+        public virtual UserModel User { get; set; }
+
         public ElectionModel(Election election)
         {
             CopyClassProperties.Fill(this, election);
