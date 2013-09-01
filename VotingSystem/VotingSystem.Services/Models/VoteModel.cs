@@ -22,19 +22,7 @@ namespace VotingSystem.Services.Models
         public virtual UserModel User { get; set; }
 
         [DataMember(Name = "answer")]
-        public virtual AnswerGetModel Answer { get; set; }
+        public virtual AnswerModel Answer { get; set; }
     }
 
-    [DataContract]
-    public class VoteGetAllModel
-    {
-        [DataMember(Name = "id")]
-        public int Id { get; set; }
-
-        [DataMember(Name = "value")]
-        public int Value { get; set; }
-
-        [DataMember(Name = "creationDate")]
-        public DateTime CreationDate { get; set; }
-    }
 }

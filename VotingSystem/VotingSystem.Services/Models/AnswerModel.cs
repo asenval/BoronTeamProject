@@ -9,7 +9,7 @@ using VotingSystem.Model;
 namespace VotingSystem.Services.Models
 {
     [DataContract]
-    public class AnswerGetModel
+    public class AnswerModel
     {
         [DataMember(Name="id")]
         public int Id { get; set; }
@@ -17,7 +17,7 @@ namespace VotingSystem.Services.Models
         [DataMember(Name = "content")]
         public string Content { get; set; }
 
-        public AnswerGetModel(Answer answer)
+        public AnswerModel(Answer answer)
         {
             CopyClassProperties.Fill(this, answer);
         }
