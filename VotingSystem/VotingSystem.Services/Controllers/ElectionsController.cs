@@ -33,7 +33,7 @@ namespace VotingSystem.Services.Controllers
             //    throw new HttpResponseException(response);
             //}
 
-            IQueryable<Election> elections = this.data.Elections.All().Include("Questions.Answers");
+            IQueryable<Election> elections = this.data.Elections.All().Include("Questions.Answers").Include("Users");
 
             var result = elections.ToList().Select(x => new ElectionModel(x));
             return result;            
