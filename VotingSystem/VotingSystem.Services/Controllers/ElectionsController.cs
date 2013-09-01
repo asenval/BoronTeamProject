@@ -16,6 +16,15 @@ namespace VotingSystem.Services.Controllers
 {
     public class ElectionsController : ApiController
     {
+        private const string ElectionStatusOpen = "Open";
+        private const string ElectionStatusClosed = "Closed";
+
+        private const string AnonymousUserNickname = "Anonyomous";
+
+        private const string ElectionStatePublic= "Public";
+        private const string ElectionStatePrivate = "Private";
+        private const string ElectionStateUnlisted = "Unlisted";
+
         private UnitOfWork data;
 
         public ElectionsController(IDbContextFactory<DbContext> contextFactory)
@@ -78,20 +87,67 @@ namespace VotingSystem.Services.Controllers
             ICollection<VoteModel> voteModels,
             [ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey)
         {
-            var user = this.data.Users.GetUserBySessionKey(sessionKey);
-            if (user == null)
-            {
-                var httpError = new HttpError("User is not logged in.");
-                var response = this.Request.CreateResponse(HttpStatusCode.Unauthorized, httpError);
-                return response;
-            }
-
             var election = this.data.Elections.Get(electionId);
             if (election == null)
             {
                 var httpError = new HttpError(String.Format("No election with id {0} exists.", 
                     electionId));
                 var response = this.Request.CreateResponse(HttpStatusCode.NotFound, httpError);
+                return response;
+            }
+
+            // validate the election is not closed
+            if (election.Status.Name == ElectionStatusClosed)
+            {
+                var httpError = new HttpError("Election is closed. Cannot vote.");
+                var response = this.Request.CreateResponse(HttpStatusCode.BadRequest,
+                    httpError);
+                return response;
+            }
+
+            User user = this.data.Users.GetUserBySessionKey(sessionKey);
+
+            if (election.State.Name == ElectionStatePublic)
+            {
+                if (user == null)
+                {
+                    user = this.data.Users.Find(u => u.DisplayName ==
+                        AnonymousUserNickname).FirstOrDefault();
+                }
+            } 
+            else if (user == null)
+            {
+                var httpError = new HttpError("User is not logged in.");
+                var response = this.Request.CreateResponse(
+                    HttpStatusCode.Unauthorized, httpError);
+                return response;
+            }
+            else
+            {
+                // if we have a valid user authentication and the state is not public
+                if (election.State.Name == ElectionStateUnlisted)
+                {
+                    string commaSeparatedInvitedDisplayNames = 
+                        election.InvitedUsersDisplayNameString;
+
+                    if (!commaSeparatedInvitedDisplayNames.Contains(user.DisplayName))
+                    {
+                        var httpError = new HttpError(
+                            "User has no authority to vote in this election (not invited).");
+                        var response = this.Request.CreateResponse(
+                            HttpStatusCode.Unauthorized, httpError);
+                        return response;
+                    }
+                }
+            }
+
+            // validate election status (allowing votes)
+            if (election.Status.Name != ElectionStatusOpen)
+            {
+                var httpError = new HttpError(
+                    String.Format("Election with id {0} has status of closed. Cannot vote.",
+                    electionId));
+                var response = this.Request.CreateResponse(HttpStatusCode.Forbidden, httpError);
                 return response;
             }
 
@@ -110,8 +166,6 @@ namespace VotingSystem.Services.Controllers
                     electionAllAnswerIds.Add(answerId);
 	            }
             }
-
-            Dictionary<int, int> answerIdVoteValuePairs = new Dictionary<int, int>();
 
             var currentDateTime = DateTime.Now;
             foreach (var voteModel in voteModels)

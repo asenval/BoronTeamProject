@@ -44,6 +44,13 @@ namespace VotingSystem.Data.Migrations
                 Username = "userTest"
             });
 
+            context.Users.AddOrUpdate(x => x.Username, new User
+            {
+                DisplayName = "Anonymous",
+                AuthCode = "9876598765987659876598765987659876598765",
+                Username = "Anonymous"
+            });
+
             context.Statuses.AddOrUpdate(x => x.Name, new Status
             {
                 Name = "Open",
