@@ -14,7 +14,7 @@ window.persisters = (function () {
         init: function (url) {
             this.rootUrl = url;
             this.userPersister = new UserPersister(this.rootUrl);
-            this.postsPersister = new PostsPersister(this.rootUrl);
+            this.electionsPersister = new ElectionsPersister(this.rootUrl);
             this.clearUserData = clearUserData;
         }
     });
@@ -89,18 +89,19 @@ window.persisters = (function () {
         }
     });
 
-    var PostsPersister = Class.create({
+    var ElectionsPersister = Class.create({
         init: function (rootUrl) {
-            this.rootUrl = rootUrl + "/posts";
+            this.rootUrl = rootUrl + "/elections";
             this.currentUser = {
                 displayname: localStorage["displayname"],
                 sessioneKey: localStorage["sessionKey"]
             };
         },
 
-        getAllPosts: function () {
-            var sessionKey = localStorage["sessionKey"];
-            var url = this.rootUrl + "/" + sessionKey;
+        getMyElections: function () {
+            //var sessionKey = localStorage["sessionKey"];
+            //var url = this.rootUrl + "/" + sessionKey;
+            var url = this.rootUrl + "/";
             return httpRequester.getJSON(url)
 		    .then(function (data) {
 		        console.log(data);

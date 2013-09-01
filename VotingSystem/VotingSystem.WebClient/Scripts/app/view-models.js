@@ -6,7 +6,7 @@ window.vmFactory = (function () {
 
     function getLoggedViewModel() {
         var viewModel = {
-            displayname: userPersister.currentUser.displayname,
+            displayname: localStorage["displayname"],
             logout: function () {
                 userPersister.logout().then(function () {
                     router.navigate("/login");

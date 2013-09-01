@@ -1,15 +1,13 @@
 ﻿/// <reference path="lib/_references.js" />
 (function () {
     var dataPersister = persisters.get("http://localhost:4414/api");
-    var postsPersister = dataPersister.postsPersister;
-    
     var userPersister = dataPersister.userPersister;
 
     var appLayout = new kendo.Layout('<div id="main-content"></div>');
     var router = new kendo.Router();
 
     router.route("/", function () {
-        if (!localStorage["sessionKey"]) {
+        if (!userPersister.isUserLogged()) {
             router.navigate("/login");
         }
         else {
