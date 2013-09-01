@@ -1,0 +1,22 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <section id="user-panel">
+        <div data-bind="text: displayname"></div>
+        <button data-bind="click:logout">Logout</button>
+    </section>
+    <section>
+        <div id="blog-posts-holder">
+            <h1>Posts</h1>
+        </div>
+    </section>
+    <script type="text/x-kendo-tmpl" id="template">
+        <div class="post">
+            <h3>#:Title#</h3>
+        </div>
+    </script>
+</body>
+</html>
