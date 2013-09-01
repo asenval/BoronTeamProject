@@ -24,5 +24,4 @@ namespace VotingSystem.Services.Models
         [DataMember(Name = "answer")]
         public virtual AnswerModel Answer { get; set; }
     }
-
 }

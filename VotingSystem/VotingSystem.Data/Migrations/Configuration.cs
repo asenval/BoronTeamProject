@@ -7,12 +7,12 @@ namespace VotingSystem.Data.Migrations
     using System.Linq;
     using VotingSystem.Model;
 
-    internal sealed class Configuration : DropCreateDatabaseIfModelChanges<VotingSystem.Data.VotingSystemContext> //DbMigrationsConfiguration
+    public sealed class Configuration : DropCreateDatabaseAlways<VotingSystem.Data.VotingSystemContext> //CreateDatabaseIfNotExists
     {
         public Configuration()
         {
-        //    AutomaticMigrationsEnabled = true;
-        //    AutomaticMigrationDataLossAllowed = true;
+            //AutomaticMigrationsEnabled = true;
+            //AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(VotingSystem.Data.VotingSystemContext context)
@@ -74,6 +74,60 @@ namespace VotingSystem.Data.Migrations
             context.Elections.AddOrUpdate(x => x.Title, new Election()
             {
                 Title = "Election1",
+                Status = context.Statuses.FirstOrDefault(x => x.Name == "Open"),
+                StartDate = new DateTime(2013, 8, 1),
+                EndDate = new DateTime(2013, 9, 1),
+                State = context.States.FirstOrDefault(x => x.Name == "Public"),
+                Questions = new List<Question>()
+                {
+                    new Question 
+                    {
+                        Content = "What is life?",
+                        VoteType =  "Boolean",
+                        Answers = new List<Answer>()
+                        {
+                            new Answer 
+                            {
+                                Content = "Nobody knows",
+                            },
+                            new Answer
+                            {
+                                Content = "It is 42."
+                            },
+                            new Answer 
+                            {
+                                Content = "Mama knows best."
+                            }
+                        }
+                    },
+                    new Question 
+                    {
+                        Content = "Why do I have to go to work?",
+                        VoteType =  "Boolean",
+                        Answers = new List<Answer>()
+                        {
+                            new Answer 
+                            {
+                                Content = "Za da ti e gadno.",
+                            },
+                            new Answer
+                            {
+                                Content = "Life sucks, get used to it!"
+                            },
+                            new Answer 
+                            {
+                                Content = "Mama knows best again."
+                            }
+                        }
+                    }
+                }
+            });
+
+            context.SaveChanges();
+
+            context.Elections.AddOrUpdate(x => x.Title, new Election()
+            {
+                Title = "Election222",
                 Status = context.Statuses.FirstOrDefault(x => x.Name == "Open"),
                 StartDate = new DateTime(2013, 8, 1),
                 EndDate = new DateTime(2013, 9, 1),
