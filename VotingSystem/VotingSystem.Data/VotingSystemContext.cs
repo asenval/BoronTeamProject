@@ -22,6 +22,7 @@ namespace VotingSystem.Data
         public DbSet<Answer> Answers { get; set; }
         public DbSet<State> States { get; set; }
         public DbSet<Result> Results { get; set; }
+        public DbSet<Status> Statuses { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
