@@ -8,6 +8,8 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity;
+using System.Web.Http.ValueProviders;
+using VotingSystem.Services.Attributes;
 
 
 namespace VotingSystem.Services.Controllers
@@ -70,7 +72,8 @@ namespace VotingSystem.Services.Controllers
 
         [HttpPut]
         [ActionName("logout")]
-        public HttpResponseMessage LogoutUser(string sessionKey)
+        public HttpResponseMessage LogoutUser(
+             [ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey)
         {
             try
             {
