@@ -7,8 +7,7 @@ namespace VotingSystem.Model
     {
         public int Id { get; set; }
 
-        // ? results but for what exactly? for answer? :
-        public virtual Answer Answer { get; set; }
+        public virtual Question Question { get; set; }
 
         public decimal Value { get; set; }
     }

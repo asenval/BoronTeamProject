@@ -10,6 +10,7 @@ namespace VotingSystem.Model
 
         [Required]
         public string Title { get; set; }
+
         public DateTime StartDate { get; set; }
 
         [Required]
@@ -27,6 +28,7 @@ namespace VotingSystem.Model
         public Election()
         {
             this.Questions = new HashSet<Question>();
+            this.Tags = new HashSet<Tag>();
         }
     }
 }
