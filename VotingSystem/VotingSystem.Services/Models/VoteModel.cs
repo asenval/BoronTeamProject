@@ -15,13 +15,7 @@ namespace VotingSystem.Services.Models
         [DataMember(Name = "value")]
         public int Value { get; set; }
 
-        [DataMember(Name = "creationDate")]
-        public DateTime CreationDate { get; set; }
-
-        [DataMember(Name = "user")]
-        public virtual UserModel User { get; set; }
-
-        [DataMember(Name = "answer")]
-        public virtual AnswerModel Answer { get; set; }
+        [DataMember(Name = "answerId")]
+        public int AnswerId { get; set; }
     }
 }
