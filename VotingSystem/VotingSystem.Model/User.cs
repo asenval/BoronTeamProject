@@ -23,9 +23,13 @@ namespace VotingSystem.Model
         [Required]
         public virtual ICollection<Election> Elections { get; set; }
 
+        [Required]
+        public virtual ICollection<Vote> Votes { get; set; }
+
         public User()
         {
             this.Elections = new HashSet<Election>();
+            this.Votes = new HashSet<Vote>();
         }
     }
 }
