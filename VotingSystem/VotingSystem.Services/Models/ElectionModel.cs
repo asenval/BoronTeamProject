@@ -46,6 +46,8 @@ namespace VotingSystem.Services.Models
             this.StateName = election.State.Name;
             this.StatusName = election.Status.Name;
             this.Owner = election.User.DisplayName;
+            this.VotedUsersDisplayNamesString = "";
+            this.InvitedUsersDisplayNameString = "";
         }
 
         public ElectionBaseModel()

@@ -39,8 +39,8 @@ namespace VotingSystem.Model
         {
             this.Questions = new HashSet<Question>();
             this.Tags = new HashSet<Tag>();
-            this.InvitedUsersDisplayNameString = "";
             this.VotedUsersDisplayNamesString = "";
+            this.InvitedUsersDisplayNameString = "";
         }
     }
 }
