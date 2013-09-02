@@ -15,8 +15,26 @@ namespace VotingSystem.Services
                 defaults: new
                 {
                     controller = "elections",
-                    electionId = RouteParameter.Optional,
                     action = "GetById"
+                }
+            );
+
+            //config.Routes.MapHttpRoute(
+            //    name: "ElectionsApiAll",
+            //    routeTemplate: "api/elections/",
+            //    defaults: new
+            //    {
+            //        controller = "elections",
+            //    }
+            //);
+
+            config.Routes.MapHttpRoute(
+                name: "ElectionsApiAll",
+                routeTemplate: "api/elections/{electionId}",
+                defaults: new
+                {
+                    controller = "elections",
+                    electionId = RouteParameter.Optional,
                 }
             );
 
