@@ -34,7 +34,8 @@ namespace VotingSystem.ConsoleClient
                         DisplayName = "rami91",
                         AuthCode = "a9dd14ba6f55cec1b3024d78fccfa5b52fdb6cfa",
                         Username = "ramito",
-                    }
+                    },
+                     
                 };
 
                 context.Elections.Add(election);
