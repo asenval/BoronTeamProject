@@ -9,12 +9,27 @@ using System.Web.Http;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity;
 using VotingSystem.Model;
+<<<<<<< HEAD
 using VotingSystem.Data;
+=======
+using System.Web.Http.ValueProviders;
+using VotingSystem.Services.Attributes;
+using System.Transactions;
+>>>>>>> 3459c38428fe553af041ea3bd96af36ceb5b28f1
 
 namespace VotingSystem.Services.Controllers
 {
     public class ElectionsController : ApiController
     {
+        private const string ElectionStatusOpen = "Open";
+        private const string ElectionStatusClosed = "Closed";
+
+        private const string AnonymousUserNickname = "Anonyomous";
+
+        private const string ElectionStatePublic= "Public";
+        private const string ElectionStatePrivate = "Private";
+        private const string ElectionStateUnlisted = "Unlisted";
+
         private UnitOfWork data;
 
         public ElectionsController(IDbContextFactory<DbContext> contextFactory)
@@ -37,7 +52,7 @@ namespace VotingSystem.Services.Controllers
             IQueryable<Election> elections = this.data.Elections.All().Include("Questions.Answers").Include("User");
 
             var result = elections.ToList().Select(x => new ElectionModel(x));
-            return result;            
+            return result;
         }
 
         [HttpGet]
@@ -53,6 +68,7 @@ namespace VotingSystem.Services.Controllers
 
             using (var context = new VotingSystemContext())
             {
+<<<<<<< HEAD
                 var election = context.Elections.FirstOrDefault(e => e.Id == electionId);
                 //var election = this.data.Elections.Get(electionId);
 
@@ -73,6 +89,256 @@ namespace VotingSystem.Services.Controllers
                 //return response;
                 return electionModel;
             }
+=======
+                var httpError = new HttpError("No such election exists.");
+                var response = Request.CreateResponse(HttpStatusCode.BadRequest, httpError);
+                throw new HttpResponseException(response);
+            }
+
+            var electionModel = new ElectionModel(election);
+            return electionModel;
+        }
+
+        [HttpPost]
+        public HttpResponseMessage Post([FromBody]ElectionModel electionModel,
+            [ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey)
+        {
+            var user = this.data.Users.GetUserBySessionKey(sessionKey);
+            if (user == null)
+            {
+                var httpError = new HttpError("Invalid username or password.");
+                return this.Request.CreateResponse(HttpStatusCode.BadRequest, httpError);
+            }
+
+            var election = new Election();
+            CopyClassProperties.Fill(election, electionModel);
+            foreach (var questionModel in electionModel.Questions)
+            {
+                var question = new Question();
+                CopyClassProperties.Fill(question, questionModel);
+                election.Questions.Add(question);
+                foreach (var answerModel in question.Answers)
+                {
+                    var answer = new Question();
+                    CopyClassProperties.Fill(answer, answerModel);
+                    election.Questions.Add(answer);
+                }
+            }
+
+            election.User = user;
+            election.Status = this.data.Status.Find(s => s.Name == electionModel.StatusName).FirstOrDefault();
+            election.State = this.data.State.Find(s => s.Name == electionModel.StateName).FirstOrDefault();
+
+            if (election.StartDate == null)
+            {
+                electionModel.StartDate = DateTime.Now;
+                election.StartDate = electionModel.StartDate;
+            }
+
+            this.data.Elections.Add(election);
+
+            electionModel.Owner = user.DisplayName;
+            var response = Request.CreateResponse<ElectionModel>(HttpStatusCode.OK, electionModel);
+            var resourceLink = Url.Link("ElectionsApi", new { id = election.Id });
+            response.Headers.Location = new Uri(resourceLink);
+
+            return response;
+        }
+
+        [HttpPost]
+        [ActionName("votes")]
+        public HttpResponseMessage PostVotes(int electionId, ICollection<VoteModel> voteModels,
+            [ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey)
+        {
+            var election = this.data.Elections.Get(electionId);
+            if (election == null)
+            {
+                var httpError = new HttpError(String.Format("No election with id {0} exists.", 
+                    electionId));
+                var response = this.Request.CreateResponse(HttpStatusCode.NotFound, httpError);
+                return response;
+            }
+
+            // validate the election is not closed
+            if (election.Status.Name == ElectionStatusClosed || election.EndDate > DateTime.Now)
+            {
+                var httpError = new HttpError("Election is closed. Cannot vote.");
+                var response = this.Request.CreateResponse(HttpStatusCode.BadRequest,
+                    httpError);
+                return response;
+            }
+
+            User user = this.data.Users.GetUserBySessionKey(sessionKey);
+
+            if (election.State.Name == ElectionStatePublic)
+            {
+                if (user == null)
+                {
+                    user = this.data.Users.Find(u => u.DisplayName ==
+                        AnonymousUserNickname).FirstOrDefault();
+                }
+            } 
+            else if (user == null)
+            {
+                var httpError = new HttpError("You are not logged in.");
+                var response = this.Request.CreateResponse(
+                    HttpStatusCode.Unauthorized, httpError);
+                return response;
+            }
+            else
+            {
+                // if we have a valid user authentication and the state is not public
+                if (election.State.Name == ElectionStateUnlisted)
+                {
+                    string commaSeparatedInvitedDisplayNames = 
+                        election.InvitedUsersDisplayNameString;
+
+                    if (!commaSeparatedInvitedDisplayNames.Contains(user.DisplayName))
+                    {
+                        var httpError = new HttpError(
+                            "User has no authority to vote in this election (not invited).");
+                        var response = this.Request.CreateResponse(
+                            HttpStatusCode.Unauthorized, httpError);
+                        return response;
+                    }
+                }
+            }
+
+            // validate election status (allowing votes)
+            if (election.Status.Name != ElectionStatusOpen)
+            {
+                var httpError = new HttpError(
+                    String.Format("Election with id {0} has status of closed. Cannot vote.",
+                    electionId));
+                var response = this.Request.CreateResponse(HttpStatusCode.Forbidden, httpError);
+                return response;
+            }
+
+            var electionQuestions = election.Questions.ToList();
+            
+            HashSet<int> electionAllAnswerIds = new HashSet<int>();
+            
+            // gather all the answerIds for the given election questions
+            foreach (var question in electionQuestions)
+            {
+                var thisQuestionAnswersIds = this.data.Answers.Find(
+                    a => a.Question.Id == question.Id).Select(q => q.Id).ToList();
+
+                foreach (var answerId in thisQuestionAnswersIds)
+	            {
+                    electionAllAnswerIds.Add(answerId);
+	            }
+            }
+
+            using (TransactionScope tran = new TransactionScope())
+            {
+                var currentDateTime = DateTime.Now;
+
+                foreach (var voteModel in voteModels)
+                {
+                    // confirm that we are trying to put a value to an answer that
+                    // is FROM this election!
+                    if (!electionAllAnswerIds.Contains(voteModel.AnswerId))
+                    {
+                        var httpError = new HttpError(
+                            "Giving a vote to an answer with ID which is not from this election.");
+                        var response = Request.CreateResponse(HttpStatusCode.Unauthorized,
+                            httpError);
+                        throw new HttpResponseException(response);
+                    }
+
+                    // find the answer with id the current answerId from voteModel
+                    // and give it a new vote
+                    var answer = this.data.Answers.Get(voteModel.AnswerId);
+
+                    if (answer == null)
+                    {
+                        var httpError = new HttpError(
+                            String.Format("Answer with id {0} does not exist.",
+                            voteModel.AnswerId));
+                        var response = Request.CreateResponse(HttpStatusCode.NotFound,
+                            httpError);
+                        throw new HttpResponseException(response);
+                    }
+
+                    var newVote = new Vote
+                    {
+                        Answer = answer,
+                        User = user,
+                        Value = voteModel.Value,
+                        CreationDate = currentDateTime,
+                    };
+
+                    this.data.Votes.Add(newVote);
+                }
+
+                tran.Complete();
+            }
+
+            return Request.CreateResponse(HttpStatusCode.Created);
+        }
+
+        [HttpGet]
+        [ActionName("results")]
+        public HttpResponseMessage PostVotes(int electionId,
+            [ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey)
+        {
+            var election = this.data.Elections.Get(electionId);
+            if (election == null)
+            {
+                var httpError = new HttpError(String.Format("No election with id {0} exists.",
+                    electionId));
+                var response = this.Request.CreateResponse(HttpStatusCode.NotFound, httpError);
+                return response;
+            }
+
+            User user = this.data.Users.GetUserBySessionKey(sessionKey);
+
+            if (user == null)
+            {
+                var httpError = new HttpError("You are not logged in.");
+                var response = this.Request.CreateResponse(
+                    HttpStatusCode.Unauthorized, httpError);
+                return response;
+            }
+            else
+            {
+                // if we have a valid user authentication and the state is not public
+                if (election.State.Name == ElectionStateUnlisted)
+                {
+                    string commaSeparatedInvitedDisplayNames =
+                        election.InvitedUsersDisplayNameString;
+
+                    if (!commaSeparatedInvitedDisplayNames.Contains(user.DisplayName))
+                    {
+                        var httpError = new HttpError(
+                            "User has no authority to vote in this election (not invited).");
+                        var response = this.Request.CreateResponse(
+                            HttpStatusCode.Unauthorized, httpError);
+                        return response;
+                    }
+                }
+            }
+
+            var electionResultModel = new ElectionResultModel(election);
+
+            foreach (var question in electionResultModel.Questions)
+            {
+                if (question.QuestionType == "boolen")
+                {
+                }
+                else if (question.QuestionType == "sortedList")
+                {
+                    question.Answers.OrderByDescending(x => x.Result).ThenBy(x => x.Id);
+                }
+            }
+         
+            var resultResponse = Request.CreateResponse<ElectionResultModel>(HttpStatusCode.OK, electionResultModel);
+            var resourceLink = Url.Link("ElectionsApi", new { id = election.Id });
+            resultResponse.Headers.Location = new Uri(resourceLink);
+
+            return resultResponse;
+>>>>>>> 3459c38428fe553af041ea3bd96af36ceb5b28f1
         }
     }
 }

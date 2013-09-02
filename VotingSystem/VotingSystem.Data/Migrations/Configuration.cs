@@ -7,7 +7,7 @@ namespace VotingSystem.Data.Migrations
     using System.Linq;
     using VotingSystem.Model;
 
-    public sealed class Configuration : DropCreateDatabaseAlways<VotingSystem.Data.VotingSystemContext> //CreateDatabaseIfNotExists
+    public sealed class Configuration : DropCreateDatabaseIfModelChanges<VotingSystem.Data.VotingSystemContext> //CreateDatabaseIfNotExists
     {
         public Configuration()
         {
@@ -39,9 +39,16 @@ namespace VotingSystem.Data.Migrations
 
             context.Users.AddOrUpdate(x => x.Username, new User
             {
-                DisplayName = "UserDisplayname2",
-                AuthCode = "1234512345123451234512345123451234512345",
-                Username = "User2"
+                DisplayName = "userTest",
+                AuthCode = "c8bbfb35608f4be64645e29c1b2ce3b17f9d8e38",
+                Username = "userTest"
+            });
+
+            context.Users.AddOrUpdate(x => x.Username, new User
+            {
+                DisplayName = "Anonymous",
+                AuthCode = "9876598765987659876598765987659876598765",
+                Username = "Anonymous"
             });
 
             context.Statuses.AddOrUpdate(x => x.Name, new Status

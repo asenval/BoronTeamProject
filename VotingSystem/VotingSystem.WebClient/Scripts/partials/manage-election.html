@@ -1,0 +1,13 @@
+﻿<script type="text/x-kendo-template" id="template">
+    <h2 data-bind="text: title"></h2>
+    <fieldset>
+        <legend>Invite users</legend>
+        <ul>
+        #for(var i = 0; i < 10; ++i){ #
+            #= ui.aLi(i, i) #
+        #}#
+        </ul>
+        <label for="tb-invite-user"><input type="text"></input></label><button>OK</button>
+    </fieldset>
+    <button>Close Election</button><button>See Results</button>
+</script>

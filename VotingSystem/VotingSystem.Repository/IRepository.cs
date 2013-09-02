@@ -13,6 +13,6 @@ namespace VotingSystem.Repository
         T Update(int id, T entity);
         void Delete(int id);
         
-        IQueryable<T> Find(Expression<Func<T, int, bool>> predicate);
+        IQueryable<T> Find(Expression<Func<T, bool>> predicate);
     }
 }

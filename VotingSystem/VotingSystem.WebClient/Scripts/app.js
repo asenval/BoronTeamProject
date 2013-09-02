@@ -18,19 +18,28 @@
 
     function renderRoute(getView, getModel) {
         getView().then(function (viewHtml) {
-            var promise = getModel();
-            return promise.then(function (model) {
-                var view = new kendo.View(viewHtml, { model: model });
+            getModel().then(function (model) {
+                var template = kendo.template(viewHtml);
+                var finalHtml = template(model);
+                var view = new kendo.View(finalHtml, { model: model });
                 appLayout.showIn("#main-content", view);
+            }).then(function () { }, function (err) {
+                console.log(err);
             });
         });
-   };
+    }
 
     router.route("/", function () { renderRouteIfLoggedIn(viewsFactory.getLoggedView, vmFactory.getLoggedViewModel) });
    
     router.route("/login", function () { renderRoute(viewsFactory.getLoginView, vmFactory.getLoginViewModel) });
 
     router.route("/election/:id", function (id) { renderRoute(viewsFactory.getElectionView, vmFactory.getElectionViewModel(id)) });
+
+    router.route("/", function () { renderRouteIfLoggedIn(viewsFactory.getLoggedView, vmFactory.getLoggedViewModel); });
+   
+    router.route("/login", function () { renderRoute(viewsFactory.getLoginView, vmFactory.getLoginViewModel) });
+
+    router.route("/manage-election", function () { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel) });
 
     $(function () {
         appLayout.render("#application");
