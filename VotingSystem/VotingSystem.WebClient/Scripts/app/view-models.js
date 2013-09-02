@@ -1,6 +1,6 @@
 ﻿/// <reference path="../lib/_references.js" />
 window.vmFactory = (function () {
-    var dataPersister = persisters.get("http://localhost:4414/api");
+    var dataPersister = persisters.get("http://votingsysyem.apphb.com/api");
     var userPersister = dataPersister.userPersister;
     var electionsPersister = dataPersister.electionsPersister;
     var router = new kendo.Router();

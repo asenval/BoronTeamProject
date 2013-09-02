@@ -1,6 +1,6 @@
 ﻿/// <reference path="lib/_references.js" />
 (function () {
-    var dataPersister = persisters.get("http://localhost:4414/api");
+    var dataPersister = persisters.get("http://votingsysyem.apphb.com/api");
     var userPersister = dataPersister.userPersister;
     var electionsPersister = dataPersister.electionsPersister;
     
@@ -17,8 +17,9 @@
     };
 
     function renderRoute(getView, getModel) {
-        getView().then(function (viewHtml) {
-            getModel().then(function (model) {
+        var args = arguments;
+        getView.apply(null, args).then(function (viewHtml) {
+            getModel.apply(null, args).then(function (model) {
                 var template = kendo.template(viewHtml);
                 var finalHtml = template(model);
                 var view = new kendo.View(finalHtml, { model: model });
@@ -39,7 +40,15 @@
    
     router.route("/login", function () { renderRoute(viewsFactory.getLoginView, vmFactory.getLoginViewModel) });
 
-    router.route("/manage-election", function () { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel) });
+    router.route("/manage-election/:id", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel) });
+
+    router.route("/create-election", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel) });
+
+    router.route("/own-votes/:id", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel) });
+
+    router.route("/vote-election/:id", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel) });
+
+    router.route("/see-results/:id", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel) });
 
     $(function () {
         appLayout.render("#application");
