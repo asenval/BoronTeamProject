@@ -281,7 +281,7 @@ namespace VotingSystem.Services.Controllers
             else
             {
                 // if we have a valid user authentication and the state is not public
-                if (election.State.Name == ElectionStateUnlisted)
+                if (election.State.Name == ElectionStatePrivate)
                 {
                     string commaSeparatedInvitedDisplayNames =
                         election.InvitedUsersDisplayNameString;
@@ -298,18 +298,7 @@ namespace VotingSystem.Services.Controllers
             }
 
             var electionResultModel = new ElectionResultModel(election);
-
-            foreach (var question in electionResultModel.Questions)
-            {
-                if (question.QuestionType == "boolen")
-                {
-                }
-                else if (question.QuestionType == "sortedList")
-                {
-                    question.Answers.OrderByDescending(x => x.Result).ThenBy(x => x.Id);
-                }
-            }
-         
+                              
             var resultResponse = Request.CreateResponse<ElectionResultModel>(HttpStatusCode.OK, electionResultModel);
             var resourceLink = Url.Link("ElectionsApi", new { id = election.Id });
             resultResponse.Headers.Location = new Uri(resourceLink);
