@@ -47,7 +47,7 @@
 
     router.route("/own-votes/:id", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel) });
 
-    router.route("/vote-election/:id", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel) });
+    router.route("/vote-election/:id", function (id) { renderRoute(viewsFactory.getInvitedElectionView, vmFactory.getInvitedElectionModel(id)) });
 
     router.route("/see-results/:id", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel) });
 
