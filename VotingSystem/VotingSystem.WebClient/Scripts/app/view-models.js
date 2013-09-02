@@ -9,7 +9,9 @@ window.vmFactory = (function () {
         return electionsPersister.getMyElections().then(function (elections) {
             var viewModel = {
                 displayname: localStorage["displayname"],
-                myElections: elections,
+                myElections: elections[0],
+                invitedElections: elections[1],
+                votedElections: elections[2],
                 log: function () {
                     userPersister.logout().then(function () {
                         router.navigate("/login");
@@ -63,8 +65,8 @@ window.vmFactory = (function () {
         });
     };
 
-    function getManageElectionModel() {
-        return kendo.observable({ title: "My Election!", users: { name: "Gosho Goshev", name: "Pesho Peshev" } });
+    function getManageElectionModel(id) {
+        return electionsPersister.getElection(id).then(kendo.observable, console.log);
     };
 
     return {

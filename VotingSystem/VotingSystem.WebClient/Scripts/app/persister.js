@@ -45,7 +45,7 @@ window.persisters = (function () {
 				},
                 function (errMsg) {
                     console.log(errMsg);
-				});
+                });
         },
 
         register: function (user) {
@@ -80,7 +80,7 @@ window.persisters = (function () {
 		    },
             function (errMsg) {
                 console.log(errMsg);
-		    });
+            });
         },
 
         isUserLogged: function () {
@@ -110,32 +110,44 @@ window.persisters = (function () {
 
         getMyElections: function () {
             return this.getAllElections().then(function (elections) {
+                var name = localStorage["displayname"];
                 var myElections = [];
+                var invitedElections = [];
+                var votedElections = [];
                 for (var i = 0; i < elections.length; i++) {
                     var election = elections[i];
-                    if (election.ownerNickname == localStorage["displayname"]) {
+                    if (election.ownerNickname == name) {
                         myElections.push(election);
                     }
+                    else if (election.votedElections.indexOf(name) != -1) {
+                        votedElections.push(election);
+                    }
+                    else if (election.invitedElections.indexOf(name) != -1) {
+                        invi.push(election);
+                    }
                 }
-                return myElections;
+
+                return [myElections, invitedElections, votedElections];
             });
         },
 
-        getElection: function (id) {
-            var url = this.rootUrl + "/" + id;
-            return httpRequester.getJSON(url)
-		    .then(function (data) {
-		        return data;
-		    },
-            function (errMsg) {
-                console.log(errMsg);
-            });
-        }
-    });
+            
 
-    return {
-        get: function (url) {
-            return new MainPersister(url);
-        }
+    getElection: function (id) {
+        var url = this.rootUrl + "/" + id;
+        return httpRequester.getJSON(url)
+        .then(function (data) {
+            return data;
+        },
+        function (errMsg) {
+            console.log(errMsg);
+        });
     }
+});
+
+return {
+    get: function (url) {
+        return new MainPersister(url);
+    }
+}
 }());
