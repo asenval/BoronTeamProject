@@ -7,8 +7,8 @@
         return eval("(" + body + ")");
     };
 };
-ali = function (name, url) {
-    return '<a href="/users/' + name + '"><li>' + name + '</li></a>';
+ali = function (text, url) {
+    return '<a href="'+ url + '"><li>' + text + '</li></a>';
 };
 ui = {
     aLi: ali

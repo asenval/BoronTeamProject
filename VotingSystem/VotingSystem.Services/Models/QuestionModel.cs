@@ -34,10 +34,11 @@ namespace VotingSystem.Services.Models
     {
         [DataMember(Name = "answers")]
         public virtual ICollection<AnswerModel> Answers { get; set; }
-
+        
         public QuestionGetModel(Question question)
             :base(question)
         {
+            CopyClassProperties.Fill(this, question);
             this.Answers = new HashSet<AnswerModel>();
 
             foreach (var answer in question.Answers)

@@ -1,4 +1,4 @@
-/// <reference path="lib/_references.js" />
+﻿/// <reference path="lib/_references.js" />
 (function () {
     var dataPersister = persisters.get("http://localhost:4414/api");
     var userPersister = dataPersister.userPersister;
@@ -29,7 +29,7 @@
         }, function (viewError) {
             console.log(viewError);
         });
-    };
+    }
 
     router.route("/", function () { renderRouteIfLoggedIn(viewsFactory.getLoggedView, vmFactory.getLoggedViewModel) });
    

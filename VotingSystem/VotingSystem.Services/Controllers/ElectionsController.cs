@@ -9,11 +9,9 @@ using System.Web.Http;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity;
 using VotingSystem.Model;
-using VotingSystem.Data;
 using System.Web.Http.ValueProviders;
 using VotingSystem.Services.Attributes;
 using System.Transactions;
-using VotingSystem.Data;
 
 namespace VotingSystem.Services.Controllers
 {
@@ -22,7 +20,7 @@ namespace VotingSystem.Services.Controllers
         private const string ElectionStatusOpen = "Open";
         private const string ElectionStatusClosed = "Closed";
 
-        private const string AnonymousUserNickname = "Anonyomous";
+        private const string AnonymousUserNickname = "Anonymous";
 
         private const string ElectionStatePublic= "Public";
         private const string ElectionStatePrivate = "Private";
@@ -64,28 +62,17 @@ namespace VotingSystem.Services.Controllers
             //    throw new HttpResponseException(response);
             //}
 
-            using (var context = new VotingSystemContext())
+            var election = this.data.Elections.Get(electionId);
+
+            if (election == null)
             {
-                var election = context.Elections.FirstOrDefault(e => e.Id == electionId);
-                //var election = this.data.Elections.Get(electionId);
-
-                if (election == null)
-                {
-                    var httpError = new HttpError("No such election exists.");
-                    var response = Request.CreateResponse(HttpStatusCode.BadRequest, httpError);
-                    throw new HttpResponseException(response);
-                    //    var httpError = new HttpError("No such election exists.");
-                    //    return this.Request.CreateResponse(HttpStatusCode.BadRequest, httpError);
-                }
-
-                var electionModel = new ElectionModel(election);
-                //var response = Request.CreateResponse<ElectionModel>(HttpStatusCode.OK, electionModel);
-                //var resourceLink = Url.Link("ElectionsApi", new { id = election.Id });
-                //response.Headers.Location = new Uri(resourceLink);
-
-                //return response;
-                return electionModel;
+                var httpError = new HttpError("No such election exists.");
+                var response = Request.CreateResponse(HttpStatusCode.BadRequest, httpError);
+                throw new HttpResponseException(response);
             }
+
+            var electionModel = new ElectionModel(election);
+            return electionModel;
         }
 
         [HttpPost]
@@ -176,8 +163,9 @@ namespace VotingSystem.Services.Controllers
             }
             else
             {
-                // if we have a valid user authentication and the state is not public
-                if (election.State.Name == ElectionStateUnlisted)
+                // if we have a valid user authentication and the state is private ->
+                // check if the user is in the 'invited users' list for the given election
+                if (election.State.Name == ElectionStatePrivate)
                 {
                     string commaSeparatedInvitedDisplayNames = 
                         election.InvitedUsersDisplayNameString;
@@ -293,7 +281,7 @@ namespace VotingSystem.Services.Controllers
             else
             {
                 // if we have a valid user authentication and the state is not public
-                if (election.State.Name == ElectionStateUnlisted)
+                if (election.State.Name == ElectionStatePrivate)
                 {
                     string commaSeparatedInvitedDisplayNames =
                         election.InvitedUsersDisplayNameString;
@@ -310,23 +298,13 @@ namespace VotingSystem.Services.Controllers
             }
 
             var electionResultModel = new ElectionResultModel(election);
-
-            foreach (var question in electionResultModel.Questions)
-            {
-                if (question.QuestionType == "boolen")
-                {
-                }
-                else if (question.QuestionType == "sortedList")
-                {
-                    question.Answers.OrderByDescending(x => x.Result).ThenBy(x => x.Id);
-                }
-            }
-         
+                              
             var resultResponse = Request.CreateResponse<ElectionResultModel>(HttpStatusCode.OK, electionResultModel);
             var resourceLink = Url.Link("ElectionsApi", new { id = election.Id });
             resultResponse.Headers.Location = new Uri(resourceLink);
 
             return resultResponse;
+
         }
     }
 }

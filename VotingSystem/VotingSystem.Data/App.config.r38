@@ -7,4 +7,10 @@
   <entityFramework>
     <defaultConnectionFactory type="System.Data.Entity.Infrastructure.SqlConnectionFactory, EntityFramework" />
   </entityFramework>
+  <connectionStrings>
+    <add
+            name="VotingSystemDB"
+            providerName="System.Data.SqlClient"
+            connectionString="Server=RAMI-PC;Database=VotingSystemDB;Trusted_Connection=true;MultipleActiveResultSets=true"/>
+  </connectionStrings>
 </configuration>
