@@ -6,5 +6,14 @@
     </section>
     <section id="invited-section">
         <h2 data-bind="text: electionTitle"></h2>
+        #for(var i = 0; i < questions.length; ++i){ #
+            <h4>#: questions[i].content # </h4>
+            <ul>
+                # for(var j = 0; j < questions[i].answers.length; ++j) { #
+                    <li>#: questions[i].answers[j].content# <input type="checkbox" data-bind="value: voteValue"></input> </li>
+                #} #
+            </ul>
+            <button data-bind="click:submit">Submit</button>
+        #}#
     </section >
 </script>
