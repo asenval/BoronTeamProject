@@ -1,45 +1,12 @@
-<<<<<<< HEAD
-﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title></title>
-</head>
-<body>
+<script type="text/x-kendo-template" id="logged-template">
     <section id="user-panel">
         <div data-bind="text: displayname"></div>
-        <button data-bind="click:logout">Logout</button>
+        <button data-bind="click:log">Logout</button>
         <button data-bind="click:createElection">Create election</button>
     </section>
-
     <section id="my-elections">
         <h1>My elections</h1>
         <ul data-template="myElections-template" data-bind="source: myElections">
-
         </ul>
     </section>
-    <script type="text/x-kendo-template" id="myElections-template">
-        <li class="elections">
-            <a href="/index.html\\#/election/#= id #">#: title # #: status # in #: tags # on #: startDate #</a>
-        </li>
-    </script>
-</body>
-</html>
-<!--<li>
-            <a href="\#/myElections/#= id #"></a>
-</li>-->
-=======
-﻿<section id="user-panel">
-    <div data-bind="text: displayname"></div>
-    <button data-bind="click:logout">Logout</button>
-</section>
-<section>
-    <div id="blog-posts-holder">
-        <h1>Posts</h1>
-    </div>
-</section>
-<script type="text/x-kendo-tmpl" id="template">
-    <div class="post">
-        <h3>#:Title#</h3>
-    </div>
 </script>
->>>>>>> 3459c38428fe553af041ea3bd96af36ceb5b28f1

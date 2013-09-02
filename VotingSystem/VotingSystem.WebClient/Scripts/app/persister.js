@@ -75,9 +75,8 @@ window.persisters = (function () {
             };
 
             return httpRequester.putJSON(url, sessionKey, headers)
-		    .then(function (data) {
-		        clearUserData(data);
-		        return data;
+		    .then(function () {
+		        clearUserData();
 		    },
             function (errMsg) {
                 console.log(errMsg);

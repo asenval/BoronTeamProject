@@ -14,7 +14,7 @@
         else {
             renderRoute(getView, getModel);
         }
-    }
+    };
 
     function renderRoute(getView, getModel) {
         getView().then(function (viewHtml) {
@@ -23,9 +23,11 @@
                 var finalHtml = template(model);
                 var view = new kendo.View(finalHtml, { model: model });
                 appLayout.showIn("#main-content", view);
+            }, function (modelErr) {
+                console.log(modelErr);
             });
-        }).then(function () { }, function (err) {
-            console.log(err);
+        }, function (viewError) {
+            console.log(viewError);
         });
     };
 
@@ -35,9 +37,6 @@
 
     router.route("/election/:id", function (id) { renderRoute(viewsFactory.getElectionView, vmFactory.getElectionViewModel(id)) });
 
-    router.route("/", function () { renderRouteIfLoggedIn(viewsFactory.getLoggedView, vmFactory.getLoggedViewModel); });
-   
-    router.route("/login", function () { renderRoute(viewsFactory.getLoginView, vmFactory.getLoginViewModel) });
 
     router.route("/manage-election", function () { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel) });
 
