@@ -86,5 +86,19 @@ namespace VotingSystem.Services.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e.Message);
             }
         }
+
+        [HttpGet]
+        public IEnumerable<UserModel> UserByNameStart(string name,
+         [ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey)
+        {
+            var users = this.data.Users.All().Where(x => x.DisplayName.StartsWith(name));
+            var result = users.ToList().Select(x => new UserModel()
+                {
+                    Id = x.Id,
+                    DisplayName = x.DisplayName
+                });
+
+            return result;
+        }
     }
 }
