@@ -119,10 +119,10 @@ window.persisters = (function () {
                     if (election.ownerNickname == displayname) {
                         myElections.push(election);
                     }
-                    else if (election.votedUsersDisplayNamesString.indexOf(displayname) != -1) {
+                    else if ((election.votedUsersDisplayNamesString.indexOf(displayname)||"") != -1) {
                         votedElections.push(election);
                     }
-                    else if (election.invitedUsersDisplayNameString.indexOf(displayname) != -1) {
+                    else if ((election.invitedUsersDisplayNameString.indexOf(displayname)||"") != -1) {
                         invitedElections.push(election);
                     }
                 }
