@@ -36,17 +36,22 @@
         });
     }
 
+    // rami
     router.route("/", function () { renderRouteIfLoggedIn(viewsFactory.getLoggedView, vmFactory.getLoggedViewModel) });
    
+    // rami
     router.route("/login", function () { renderRoute(viewsFactory.getLoginView, vmFactory.getLoginViewModel) });
 
+    // velko 
     router.route("/manage-election/:id", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel) });
 
     // todo: change view/model factories
+    // asen
     router.route("/create-election", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel) });
 
     router.route("/own-votes/:id", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel) });
 
+    // rami
     router.route("/vote-election/:id", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel) });
 
     router.route("/see-results/:id", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel) });
