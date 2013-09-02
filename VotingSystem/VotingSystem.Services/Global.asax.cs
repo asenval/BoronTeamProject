@@ -20,11 +20,13 @@ namespace VotingSystem.Services
     {
         protected void Application_Start()
         {
-            Database.SetInitializer<VotingSystemContext>(new Configuration());
+            // Database.SetInitializer<VotingSystemContext>(new Configuration());
             var context = new VotingSystem.Data.VotingSystemContext();
             using (context)
             {
-                context.Database.Initialize(true);
+                // context.Database.Initialize(true);
+                var temp = context.Elections.Count();
+                new Configuration().InitializeDatabase(context);
             }
 
             AreaRegistration.RegisterAllAreas();

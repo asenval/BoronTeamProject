@@ -7,7 +7,7 @@ namespace VotingSystem.Data.Migrations
     using System.Linq;
     using VotingSystem.Model;
 
-    public sealed class Configuration : IDatabaseInitializer<VotingSystem.Data.VotingSystemContext>//CreateDatabaseIfNotExists<VotingSystem.Data.VotingSystemContext> //CreateDatabaseIfNotExists
+    public sealed class Configuration : IDatabaseInitializer<VotingSystem.Data.VotingSystemContext> //CreateDatabaseIfNotExists
     {
         public Configuration()
         {
@@ -15,7 +15,7 @@ namespace VotingSystem.Data.Migrations
             //AutomaticMigrationDataLossAllowed = true;
         }
 
-        protected override void Seed(VotingSystem.Data.VotingSystemContext context)
+        protected void Seed(VotingSystem.Data.VotingSystemContext context)
         {
             //  This method will be called after migrating to the latest version.
 
@@ -191,6 +191,7 @@ namespace VotingSystem.Data.Migrations
 
         public void InitializeDatabase(VotingSystemContext context)
         {
+            Seed(context);
         }
     }
 }
