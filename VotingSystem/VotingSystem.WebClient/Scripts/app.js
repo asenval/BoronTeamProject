@@ -24,7 +24,11 @@
                 var template = kendo.template(viewHtml);
                 var finalHtml = template(model);
                 var view = new kendo.View(finalHtml, { model: model });
+                
                 appLayout.showIn("#main-content", view);
+                //$("#my-elections").kendoMenu();
+                //$("#logged-view").kendoMenu();
+                
             }, function (modelErr) {
                 console.log(modelErr);
             }).then(function () {
