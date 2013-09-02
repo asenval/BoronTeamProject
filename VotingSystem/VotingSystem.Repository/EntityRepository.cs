@@ -28,7 +28,8 @@ namespace VotingSystem.Repository
         public virtual IQueryable<T> Find(System.Linq.Expressions.Expression<Func<T, bool>> predicate)
         {
             var context = contextFactory.Create();
-            return context.Set<T>().Where(predicate);
+            var result = context.Set<T>().Where(predicate);
+            return result;
         }
 
         public virtual IQueryable<T> All()
@@ -41,7 +42,6 @@ namespace VotingSystem.Repository
         {
             var context = contextFactory.Create();
             var result = context.Set<T>().Find(id);
-            //context.Entry(result).State = System.Data.EntityState.Detached;
             return result;
         }
 

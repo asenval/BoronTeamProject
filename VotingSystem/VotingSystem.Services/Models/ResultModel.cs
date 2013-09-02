@@ -13,7 +13,7 @@ namespace VotingSystem.Services.Models
         public int Id { get; set; }
 
         [DataMember(Name = "answer")]
-        public virtual AnswerResultModel Answer { get; set; }
+        public virtual AnswerModel Answer { get; set; }
 
         [DataMember(Name = "value")]
         public decimal Value { get; set; }

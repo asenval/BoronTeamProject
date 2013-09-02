@@ -12,7 +12,7 @@
     <add
             name="VotingSystemDB"
             providerName="System.Data.SqlClient"
-            connectionString="Server=.\SQLSERVER;Database=VotingSystemDB;Trusted_Connection=true;MultipleActiveResultSets=true"/>
+            connectionString="Server=.\SQLEXPRESS;Database=VotingSystemDB;Trusted_Connection=true;MultipleActiveResultSets=true"/>
   </connectionStrings>
   <appSettings>
     <add key="webpages:Version" value="2.0.0.0" />

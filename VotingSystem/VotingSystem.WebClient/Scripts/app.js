@@ -1,9 +1,8 @@
-/// <reference path="lib/_references.js" />
+﻿/// <reference path="lib/_references.js" />
 (function () {
     var dataPersister = persisters.get("http://localhost:4414/api");
     var userPersister = dataPersister.userPersister;
-    var electionsPersister = dataPersister.electionsPersister;
-    
+
     var appLayout = new kendo.Layout('<div id="main-content"></div>');
     var router = new kendo.Router();
 
@@ -18,22 +17,15 @@
 
     function renderRoute(getView, getModel) {
         getView().then(function (viewHtml) {
-            getModel().then(function (model) {
-                var template = kendo.template(viewHtml);
-                var finalHtml = template(model);
-                var view = new kendo.View(finalHtml, { model: model });
-                appLayout.showIn("#main-content", view);
-            });
+            var model = getModel();
+            var template = kendo.template(viewHtml);
+            var finalHtml = template(model);
+            var view = new kendo.View(finalHtml, { model: model });
+            appLayout.showIn("#main-content", view);
         }).then(function () { }, function (err) {
             console.log(err);
         });
-    };
-
-    router.route("/", function () { renderRouteIfLoggedIn(viewsFactory.getLoggedView, vmFactory.getLoggedViewModel) });
-   
-    router.route("/login", function () { renderRoute(viewsFactory.getLoginView, vmFactory.getLoginViewModel) });
-
-    router.route("/election/:id", function (id) { renderRoute(viewsFactory.getElectionView, vmFactory.getElectionViewModel(id)) });
+   };
 
     router.route("/", function () { renderRouteIfLoggedIn(viewsFactory.getLoggedView, vmFactory.getLoggedViewModel); });
    

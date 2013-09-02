@@ -1,6 +1,5 @@
 ﻿/// <reference path="../lib/_references.js" />
 window.persisters = (function () {
-    var currentUsername = null;
     function saveUserData(userData) {
         localStorage.setItem("displayname", userData.displayName);
         localStorage.setItem("sessionKey", userData.sessionKey);
@@ -9,7 +8,6 @@ window.persisters = (function () {
     function clearUserData() {
         localStorage.removeItem("displayname");
         localStorage.removeItem("sessionKey");
-        currentUsername = null;
     }
 
     var MainPersister = Class.create({
@@ -39,7 +37,6 @@ window.persisters = (function () {
 
             return httpRequester.postJSON(url, userData)
 				.then(function (data) {
-				    currentUsername = userData.username;
 				    saveUserData(data);
 				    return data;
 				},
@@ -58,7 +55,6 @@ window.persisters = (function () {
 
             return httpRequester.postJSON(url, userData)
 				.then(function (data) {
-				    currentUsername = userData.username;
 				    saveUserData(data);
 				    return data;
 				},
@@ -96,36 +92,19 @@ window.persisters = (function () {
     var ElectionsPersister = Class.create({
         init: function (rootUrl) {
             this.rootUrl = rootUrl + "/elections";
-        },
-
-        getAllElections: function () {
-            var url = this.rootUrl;
-            return httpRequester.getJSON(url)
-		    .then(function (data) {
-		        return data;
-		    },
-            function (errMsg) {
-                console.log(errMsg);
-            });
+            this.currentUser = {
+                displayname: localStorage["displayname"],
+                sessioneKey: localStorage["sessionKey"]
+            };
         },
 
         getMyElections: function () {
-            return this.getAllElections().then(function (elections) {
-                var myElections = [];
-                for (var i = 0; i < elections.length; i++) {
-                    var election = elections[i];
-                    if (election.ownerNickname == localStorage["displayname"]) {
-                        myElections.push(election);
-                    }
-                }
-                return myElections;
-            });
-        },
-
-        getElection: function (id) {
-            var url = this.rootUrl + "/" + id;
+            //var sessionKey = localStorage["sessionKey"];
+            //var url = this.rootUrl + "/" + sessionKey;
+            var url = this.rootUrl + "/";
             return httpRequester.getJSON(url)
 		    .then(function (data) {
+		        console.log(data);
 		        return data;
 		    },
             function (errMsg) {

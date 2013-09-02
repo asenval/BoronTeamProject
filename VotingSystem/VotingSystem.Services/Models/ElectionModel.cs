@@ -8,19 +8,21 @@ using VotingSystem.Model;
 namespace VotingSystem.Services.Models
 {
     [DataContract]
-    public class ElectionBaseModel
+    public class ElectionModel
     {
         [DataMember(Name = "id")]
         public int Id { get; set; }
 
         [DataMember(Name = "title")]
         public string Title { get; set; }
-
         [DataMember(Name = "startDate")]
         public DateTime? StartDate { get; set; }
 
         [DataMember(Name = "endDate")]
         public DateTime EndDate { get; set; }
+
+        [DataMember(Name = "questions")]
+        public virtual ICollection<QuestionGetModel> Questions { get; set; }
 
         [DataMember(Name = "tags")]
         public virtual ICollection<TagModel> Tags { get; set; }
@@ -34,28 +36,12 @@ namespace VotingSystem.Services.Models
         [DataMember(Name = "ownerNickname")]
         public virtual string Owner { get; set; }
 
-        public ElectionBaseModel(Election election)
+        public ElectionModel(Election election)
         {
             CopyClassProperties.Fill(this, election);
             this.StateName = election.State.Name;
             this.StatusName = election.Status.Name;
             this.Owner = election.User.DisplayName;
-        }
-
-        public ElectionBaseModel()
-        {
-        }
-    }
-
-    [DataContract]
-    public class ElectionModel: ElectionBaseModel
-    {
-        [DataMember(Name = "questions")]
-        public virtual ICollection<QuestionGetModel> Questions { get; set; }
-
-        public ElectionModel(Election election)
-            :base(election)
-        {
             this.Questions = new HashSet<QuestionGetModel>();
 
             foreach (var question in election.Questions)
@@ -65,26 +51,8 @@ namespace VotingSystem.Services.Models
         }
 
         public ElectionModel()
-            :base()
         {
             this.Questions = new HashSet<QuestionGetModel>();
-        }
-    }
-
-    public class ElectionResultModel: ElectionBaseModel
-    {        
-        [DataMember(Name = "questions")]
-        public virtual ICollection<QuestionResultModel> Questions { get; set; }
-
-        public ElectionResultModel(Election election)
-            :base(election)
-        {            
-            this.Questions = new HashSet<QuestionResultModel>();
-
-            foreach (var question in election.Questions)
-            {
-                this.Questions.Add(new QuestionResultModel(question));
-            }
         }
     }
 }

@@ -25,21 +25,5 @@ namespace VotingSystem.Services.Models
         public AnswerModel()
         {
         }
-    }
-
-    [DataContract]
-    public class AnswerResultModel: AnswerModel
-    {
-        [DataMember(Name = "result")]
-        public int Result { get; set; }
-
-        public AnswerResultModel(Answer answer)
-        {
-            CopyClassProperties.Fill(this, answer);
-            if (answer.Votes.Count > 0)
-            {
-                Result = answer.Votes.Sum(x => x.Value);
-            }
-        }
-    }   
+    }    
 }
