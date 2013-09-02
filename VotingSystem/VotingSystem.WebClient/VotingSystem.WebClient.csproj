@@ -61,6 +61,7 @@
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\app\httpRequester.js" />
     <Content Include="Scripts\app\persister.js" />
+    <Content Include="Scripts\app\utils.js" />
     <Content Include="Scripts\app\view-models.js" />
     <Content Include="Scripts\app\views.js" />
     <Content Include="Scripts\lib\class.js" />
@@ -72,6 +73,7 @@
     <Content Include="Scripts\lib\rsvp.min.js" />
     <Content Include="Scripts\lib\sha1.js" />
     <Content Include="Scripts\lib\_references.js" />
+    <Content Include="Scripts\partials\manage-election.html" />
     <Content Include="Scripts\partials\logged-form.html" />
     <Content Include="Scripts\partials\login-form.html" />
     <Content Include="Web.config" />

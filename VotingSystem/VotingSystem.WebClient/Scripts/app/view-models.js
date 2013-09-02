@@ -46,8 +46,13 @@ window.vmFactory = (function () {
         return kendo.observable(viewModel);
     };
 
+    function getManageElectionModel() {
+        return kendo.observable({ title: "My Election!", users: { name: "Gosho Goshev", name: "Pesho Peshev" } });
+    };
+
     return {
         getLoginViewModel: getLoginViewModel,
-        getLoggedViewModel: getLoggedViewModel
+        getLoggedViewModel: getLoggedViewModel,
+        getManageElectionModel: getManageElectionModel
     }
 }());

@@ -10,6 +10,7 @@ window.viewsFactory = (function () {
             }
             else {
                 $.ajax({
+                    // GET /login-form.hml
                     url: rootUrl + name + ".html",
                     type: "GET",
                     success: function (templateHtml) {
@@ -25,16 +26,9 @@ window.viewsFactory = (function () {
         return promise;
     }
 
-    function getLoginView() {
-        return getTemplate("login-form");
-    }
-
-    function getLoggedView() {
-        return getTemplate("logged-form");
-    }
-
     return {
-        getLoginView: getLoginView,
-        getLoggedView: getLoggedView,
+        getLoginView: function () { return getTemplate("login-form") },
+        getLoggedView: function () { return getTemplate("logged-form") },
+        getManageElectionView: function () { return getTemplate("manage-election") }
     }
 }());
