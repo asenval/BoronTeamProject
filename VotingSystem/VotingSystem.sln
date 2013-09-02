@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingSystem.Model", "VotingSystem.Model\VotingSystem.Model.csproj", "{A664D230-9EF4-4476-9142-87E2C38F1EEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingSystem.Data", "VotingSystem.Data\VotingSystem.Data.csproj", "{1825A2E6-EF2E-4C01-A4D8-DAF640D4C01F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingSystem.Services", "VotingSystem.Services\VotingSystem.Services.csproj", "{0AC806DE-009C-4928-80E3-E41645CF0B8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingSystem.Repository", "VotingSystem.Repository\VotingSystem.Repository.csproj", "{13912E72-935C-47F1-BB30-6BDAAB3FC8B0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{7F79A2A4-5526-4B91-B3B5-6DD1ACBF2511}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingSystem.WebClient", "VotingSystem.WebClient\VotingSystem.WebClient.csproj", "{4E545115-DC9D-4A30-9897-BA6C1C9CFD96}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VotingSystem.ConsoleClient", "VotingSystem.ConsoleClient\VotingSystem.ConsoleClient.csproj", "{261900DE-4EB6-40B0-BF04-69F72CD66CC9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A664D230-9EF4-4476-9142-87E2C38F1EEF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A664D230-9EF4-4476-9142-87E2C38F1EEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A664D230-9EF4-4476-9142-87E2C38F1EEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A664D230-9EF4-4476-9142-87E2C38F1EEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1825A2E6-EF2E-4C01-A4D8-DAF640D4C01F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1825A2E6-EF2E-4C01-A4D8-DAF640D4C01F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1825A2E6-EF2E-4C01-A4D8-DAF640D4C01F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1825A2E6-EF2E-4C01-A4D8-DAF640D4C01F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AC806DE-009C-4928-80E3-E41645CF0B8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AC806DE-009C-4928-80E3-E41645CF0B8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AC806DE-009C-4928-80E3-E41645CF0B8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AC806DE-009C-4928-80E3-E41645CF0B8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13912E72-935C-47F1-BB30-6BDAAB3FC8B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13912E72-935C-47F1-BB30-6BDAAB3FC8B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13912E72-935C-47F1-BB30-6BDAAB3FC8B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13912E72-935C-47F1-BB30-6BDAAB3FC8B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E545115-DC9D-4A30-9897-BA6C1C9CFD96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E545115-DC9D-4A30-9897-BA6C1C9CFD96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E545115-DC9D-4A30-9897-BA6C1C9CFD96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E545115-DC9D-4A30-9897-BA6C1C9CFD96}.Release|Any CPU.Build.0 = Release|Any CPU
+		{261900DE-4EB6-40B0-BF04-69F72CD66CC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{261900DE-4EB6-40B0-BF04-69F72CD66CC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{261900DE-4EB6-40B0-BF04-69F72CD66CC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{261900DE-4EB6-40B0-BF04-69F72CD66CC9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
