@@ -322,6 +322,7 @@ namespace VotingSystem.Services.Controllers
             }
 
             Election election = this.data.Elections.Get(electionId);
+            this.data.State.Get(election.State.Id); // evaluate
 
             if (election.User != user)
             {
@@ -332,7 +333,10 @@ namespace VotingSystem.Services.Controllers
                 return errResponse;
             }
 
-            election.Status.Name = ElectionStatusClosed;
+            var closedStatus = this.data.Status.Find(x => 
+                x.Name == ElectionStatusClosed).FirstOrDefault();
+
+            election.Status = closedStatus;
             this.data.Elections.Update(electionId, election);
 
             var response = this.Request.CreateResponse(HttpStatusCode.OK);
