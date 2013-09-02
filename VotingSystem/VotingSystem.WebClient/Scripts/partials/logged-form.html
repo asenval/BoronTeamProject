@@ -6,7 +6,11 @@
     </section>
     <section id="my-elections">
         <h1>My elections</h1>
-        <ul data-template="myElections-template" data-bind="source: myElections">
+        <ul>
+            #for(var i = 0; i < myElections.length; ++i){ #
+                 #= ui.aLi(myElections[i].title, "index.html\\#/election/" + myElections[i].id) #
+            #}#
         </ul>
     </section>
 </script>
+

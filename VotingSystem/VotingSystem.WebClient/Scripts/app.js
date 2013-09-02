@@ -25,6 +25,10 @@
                 appLayout.showIn("#main-content", view);
             }, function (modelErr) {
                 console.log(modelErr);
+            }).then(function () {
+    
+            }, function (err) {
+                console.log(err);
             });
         }, function (viewError) {
             console.log(viewError);
@@ -36,7 +40,6 @@
     router.route("/login", function () { renderRoute(viewsFactory.getLoginView, vmFactory.getLoginViewModel) });
 
     router.route("/election/:id", function (id) { renderRoute(viewsFactory.getElectionView, vmFactory.getElectionViewModel(id)) });
-
 
     router.route("/manage-election", function () { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel) });
 

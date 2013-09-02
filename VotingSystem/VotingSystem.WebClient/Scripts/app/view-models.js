@@ -10,11 +10,24 @@ window.vmFactory = (function () {
             var viewModel = {
                 title: election.title,
                 invitedDisplayname: "",
-                //inviteUser: function () {
-                //    userPersister.invite().then(function () {
-                        
-                //    });
-                //},
+                displayname: localStorage["displayname"],
+                log: function () {
+                    userPersister.logout().then(function () {
+                        router.navigate("/login");
+                    }, function (errMsg) {
+                        console.log(errMsg);
+                    });
+                },
+                createElection: function () {
+                    var electionData = {
+                    };
+                    electionsPersister.createElection(electionData).then(function (data) {
+                        console.log(data);
+                        router.navigate("/");
+                    }, function (errMsg) {
+                        console.log(errMsg);
+                    })
+                }
             }
             var obs = kendo.observable(viewModel);
             return obs;
