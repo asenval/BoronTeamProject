@@ -39,8 +39,6 @@
    
     router.route("/login", function () { renderRoute(viewsFactory.getLoginView, vmFactory.getLoginViewModel) });
 
-    router.route("/election/:id", function (id) { renderRoute(viewsFactory.getElectionView, vmFactory.getElectionViewModel(id)) });
-
     router.route("/manage-election", function () { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel) });
 
     $(function () {
