@@ -17,15 +17,16 @@
 
     function renderRoute(getView, getModel) {
         getView().then(function (viewHtml) {
-            var model = getModel();
-            var template = kendo.template(viewHtml);
-            var finalHtml = template(model);
-            var view = new kendo.View(finalHtml, { model: model });
-            appLayout.showIn("#main-content", view);
+            getModel().then(function(model) {
+                var template = kendo.template(viewHtml);
+                var finalHtml = template(model);
+                var view = new kendo.View(finalHtml, { model: model });
+                appLayout.showIn("#main-content", view);
+            });
         }).then(function () { }, function (err) {
             console.log(err);
         });
-   };
+    };
 
     router.route("/", function () { renderRouteIfLoggedIn(viewsFactory.getLoggedView, vmFactory.getLoggedViewModel); });
    
