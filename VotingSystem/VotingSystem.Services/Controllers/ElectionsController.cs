@@ -9,13 +9,11 @@ using System.Web.Http;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity;
 using VotingSystem.Model;
-<<<<<<< HEAD
 using VotingSystem.Data;
-=======
 using System.Web.Http.ValueProviders;
 using VotingSystem.Services.Attributes;
 using System.Transactions;
->>>>>>> 3459c38428fe553af041ea3bd96af36ceb5b28f1
+using VotingSystem.Data;
 
 namespace VotingSystem.Services.Controllers
 {
@@ -68,7 +66,6 @@ namespace VotingSystem.Services.Controllers
 
             using (var context = new VotingSystemContext())
             {
-<<<<<<< HEAD
                 var election = context.Elections.FirstOrDefault(e => e.Id == electionId);
                 //var election = this.data.Elections.Get(electionId);
 
@@ -89,14 +86,6 @@ namespace VotingSystem.Services.Controllers
                 //return response;
                 return electionModel;
             }
-=======
-                var httpError = new HttpError("No such election exists.");
-                var response = Request.CreateResponse(HttpStatusCode.BadRequest, httpError);
-                throw new HttpResponseException(response);
-            }
-
-            var electionModel = new ElectionModel(election);
-            return electionModel;
         }
 
         [HttpPost]
@@ -338,7 +327,6 @@ namespace VotingSystem.Services.Controllers
             resultResponse.Headers.Location = new Uri(resourceLink);
 
             return resultResponse;
->>>>>>> 3459c38428fe553af041ea3bd96af36ceb5b28f1
         }
     }
 }
