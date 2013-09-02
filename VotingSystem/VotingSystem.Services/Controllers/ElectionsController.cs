@@ -52,6 +52,7 @@ namespace VotingSystem.Services.Controllers
         }
 
         [HttpGet]
+        [ActionName("GetById")]
         public ElectionModel GetById(int electionId)
         {
             //var user = this.data.Users.GetUserBySessionKey(sessionKey);
