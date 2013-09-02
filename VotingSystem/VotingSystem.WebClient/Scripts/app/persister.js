@@ -34,7 +34,7 @@ window.persisters = (function () {
             var url = this.rootUrl + "/login";
             var userData = {
                 username: user.username,
-                authCode: CryptoJS.SHA1(user.username + user.password).toString() 
+                authCode: CryptoJS.SHA1(user.username + user.password).toString()
             };
 
             return httpRequester.postJSON(url, userData)
@@ -119,10 +119,10 @@ window.persisters = (function () {
                     if (election.ownerNickname == displayname) {
                         myElections.push(election);
                     }
-                    else if (election.votedUsersDisplayNamesString.indexOf(displayname) != -1) {
+                    else if ((election.votedUsersDisplayNamesString || "").indexOf(displayname) != -1) {
                         votedElections.push(election);
                     }
-                    else if (election.invitedUsersDisplayNameString.indexOf(displayname) != -1) {
+                    else if ((election.invitedUsersDisplayNameString || "").indexOf(displayname) != -1) {
                         invitedElections.push(election);
                     }
                 }
@@ -141,11 +141,11 @@ window.persisters = (function () {
                 console.log(errMsg);
             });
         },
-});
+    });
 
-return {
-    get: function (url) {
-        return new MainPersister(url);
+    return {
+        get: function (url) {
+            return new MainPersister(url);
+        }
     }
-}
 }());
