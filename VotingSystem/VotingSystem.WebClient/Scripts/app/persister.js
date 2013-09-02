@@ -141,6 +141,25 @@ window.persisters = (function () {
                 console.log(errMsg);
             });
         },
+
+        createElection: function (electionData) {
+            var sessionKey = localStorage["sessionKey"];
+            var url = this.rootUrl;
+            debugger
+            var headers = {
+                "X-sessionKey": sessionKey
+            };
+            
+            return httpRequester.postJSON(url, electionData, headers)
+            .then(function (data) {
+                return data;
+            },
+            function (errMsg) {
+                debugger
+                console.log(errMsg);
+            });
+        }
+
     });
 
     return {

@@ -1,6 +1,7 @@
 ﻿/// <reference path="../lib/_references.js" />
 window.vmFactory = (function () {
     var dataPersister = persisters.get("http://votingsysyem.apphb.com/api");
+    var dataPersister = persisters.get("http://localhost:4414/api");
     var userPersister = dataPersister.userPersister;
     var electionsPersister = dataPersister.electionsPersister;
     var router = new kendo.Router();
@@ -20,14 +21,15 @@ window.vmFactory = (function () {
                     });
                 },
                 createElection: function () {
-                    var electionData = {
+                    router.navigate("/create-election");
+                   /* var electionData = {
                     };
                     electionsPersister.createElection(electionData).then(function (data) {
                         console.log(data);
                         router.navigate("/");
                     }, function (errMsg) {
                         console.log(errMsg);
-                    })
+                    })*/
                 }
             }
             var obs = kendo.observable(viewModel);
@@ -97,9 +99,75 @@ window.vmFactory = (function () {
         return electionsPersister.getElection(id).then(kendo.observable, console.log);
     };
 
+    function getCreateElectionModel() {
+        var viewModel = {
+            title: "",
+            status: "Open",
+            state: "Public",
+            startdate: "",
+            enddate: "",
+            questions: [],
+            curentQuestionContent: "",
+            curentQuestionType: "Boolean",
+            answersForCurrQuestion: [],
+            currentAnswerContent: "",
+            
+            addQuestion: function () {
+                var questionsGathered = this.get("questions");
+
+                questionsGathered.push(
+                    { 
+                        type: this.get("currentQuestionType"),
+                        content: this.get("curentQuestionContent"),
+                        answers: this.get("answersForCurrQuestion")
+                    });
+
+                this.set("questions", questionsGathered);
+
+                this.set("curentQuestionContent", ""); 
+                this.set("currentQuestionType", "Boolean"); //za4istva6
+                this.set("answersForCurrQuestion",""); 
+                                
+                //return questions
+            },
+
+            addAnswer: function (numberOfQuestions) {
+                var answersGathered = this.get("answersForCurrQuestion");
+
+                answersGathered.push({ type: this.get("currentAnswerContent") });
+
+                this.set("answersForCurrQuestion", answersGathered);
+
+                this.set("currentAnswerContent", "");
+
+                //return addAnswer
+            },
+
+            submit: function () {
+                var electionData = {
+                    title: this.get("title"),
+                    status: this.get("status"),
+                    state: this.get("state"),
+                    startdate: this.get("startdate"),
+                    enddate: this.get("enddate"),
+                    questions: this.get("questions")
+                };
+
+                electionsPersister.createElection(electionData).then(function () {
+                    router.navigate("/");
+                });
+            }
+        };
+        return new RSVP.Promise(function (res, rej) {
+            res(kendo.observable(viewModel));
+        });
+        //return new RSVP.Promise(function (res, rej) { res({}); });
+    };
+
     return {
         getLoginViewModel: getLoginViewModel,
         getLoggedViewModel: getLoggedViewModel,
-        getManageElectionModel: getManageElectionModel
+        getManageElectionModel: getManageElectionModel,
+        getCreateElectionModel: getCreateElectionModel
     }
 }());

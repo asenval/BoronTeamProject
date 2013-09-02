@@ -1,6 +1,7 @@
 ﻿/// <reference path="lib/_references.js" />
 (function () {
-    var dataPersister = persisters.get("http://votingsysyem.apphb.com/api");
+    //var dataPersister = persisters.get("http://votingsysyem.apphb.com/api");
+    var dataPersister = persisters.get("http://localhost:4414/api");
     var userPersister = dataPersister.userPersister;
     var electionsPersister = dataPersister.electionsPersister;
     
@@ -49,7 +50,7 @@
 
     // todo: change view/model factories
     // asen
-    router.route("/create-election", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel) });
+    router.route("/create-election", function (id) { renderRoute(viewsFactory.getCreateElectionView, vmFactory.getCreateElectionModel) });
 
     router.route("/own-votes/:id", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel, id) });
 

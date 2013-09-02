@@ -16,7 +16,7 @@
         return promise;
     }
 
-    function postJSON(requestUrl, data) {
+    function postJSON(requestUrl, data, headers) {
         var promise = new RSVP.Promise(function (resolve, reject) {
             $.ajax({
                 url: requestUrl,
@@ -24,6 +24,7 @@
                 contentType: "application/json",
                 data: JSON.stringify(data),
                 dataType: "json",
+                headers: headers,
                 success: function (data) {
                     resolve(data);
                 },
