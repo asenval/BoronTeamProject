@@ -12,4 +12,20 @@
             #}#
         </ul>
     </section>
+    <section id="invited-elections">
+        <h1>Invited elections</h1>
+        <ul>
+            #for(var i = 0; i < invitedElections.length; ++i){ #
+                 #= ui.aLi(invitedElections[i].title, "index.html\\#/vote-election/" + votedElections[i].id) #
+            #}#
+        </ul>
+    </section>
+    <section id="voting-history">
+        <h1>Voting history</h1>
+        <ul>
+            #for(var i = 0; i < votedElections.length; ++i){ #
+                 #= ui.aLi(votedElections[i].title, "index.html\\#/own-votes/" + votedElections[i].id) #
+            #}#
+        </ul>
+    </section>
 </script>
