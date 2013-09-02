@@ -26,9 +26,11 @@ window.vmFactory = (function () {
             var viewModel = {
                 displayname: localStorage["displayname"],
                 myElections: elections,
-                logout: function () {
+                log: function () {
                     userPersister.logout().then(function () {
                         router.navigate("/login");
+                    }, function (errMsg) {
+                        console.log(errMsg);
                     });
                 },
                 createElection: function () {
@@ -84,6 +86,7 @@ window.vmFactory = (function () {
     return {
         getLoginViewModel: getLoginViewModel,
         getLoggedViewModel: getLoggedViewModel,
+        getElectionViewModel: getElectionViewModel,
         getManageElectionModel: getManageElectionModel
     }
 }());

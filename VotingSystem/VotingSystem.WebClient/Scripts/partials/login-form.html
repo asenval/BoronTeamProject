@@ -1,11 +1,14 @@
-﻿<fieldset>
-    <legend>Login or register</legend>
-    <label for="tb-username">Username</label>
-    <input data-bind="value: username" type="text" id="tb-username"/>
-    <label for="tb-displayname">Displayname</label>
-    <input data-bind="value: displayname" type="text" id="displayname"/>
-    <label for="tb-password">Password</label>
-    <input data-bind="value: password" type="password" id="password"/>
-    <button data-bind="click:login">Login</button>
-    <button data-bind="click:register">Register</button>
-</fieldset>
+﻿<script type="text/x-kendo-template" id="login-template">
+    <fieldset>
+        <legend>Login or register</legend>
+        <label for="tb-username">Username</label>
+        <input data-bind="value: username" type="text" id="tb-username"/>
+        <label for="tb-displayname">Displayname</label>
+        <input data-bind="value: displayname" type="text" id="displayname"/>
+        <label for="tb-password">Password</label>
+        <input data-bind="value: password" type="password" id="password"/>
+        <button data-bind="click:login">Login</button>
+        <button data-bind="click:register">Register</button>
+    </fieldset>
+</script>
+

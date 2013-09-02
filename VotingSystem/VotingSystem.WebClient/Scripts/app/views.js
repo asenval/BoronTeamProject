@@ -29,6 +29,7 @@ window.viewsFactory = (function () {
     return {
         getLoginView: function () { return getTemplate("login-form") },
         getLoggedView: function () { return getTemplate("logged-form") },
-        getManageElectionView: function () { return getTemplate("manage-election") }
+        getManageElectionView: function () { return getTemplate("manage-election") },
+        getElectionView: function () { return getTemplate("election-form") },
     }
 }());
