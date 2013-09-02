@@ -26,16 +26,19 @@ namespace VotingSystem.Services.Models
         public virtual ICollection<TagModel> Tags { get; set; }
 
         [DataMember(Name = "state")]
-        public virtual string StateName { get; set; }
+        public string StateName { get; set; }
 
         [DataMember(Name = "status")]
-        public virtual string StatusName { get; set; }
+        public string StatusName { get; set; }
 
         [DataMember(Name = "ownerNickname")]
-        public virtual string Owner { get; set; }
+        public string Owner { get; set; }
 
         [DataMember(Name = "votedUsersDisplayNamesString")]
-        public virtual string VotedUsersDisplayNamesString { get; set; }
+        public string VotedUsersDisplayNamesString { get; set; }
+
+        [DataMember(Name = "invitedUsersDisplayNameString")]
+        public string InvitedUsersDisplayNameString { get; set; }
 
         public ElectionBaseModel(Election election)
         {

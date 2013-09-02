@@ -5,22 +5,6 @@ window.vmFactory = (function () {
     var electionsPersister = dataPersister.electionsPersister;
     var router = new kendo.Router();
 
-    function getElectionViewModel(id) {
-        return electionsPersister.getElection(id).then(function (election) {
-            var viewModel = {
-                title: election.title,
-                invitedDisplayname: "",
-                //inviteUser: function () {
-                //    userPersister.invite().then(function () {
-                        
-                //    });
-                //},
-            }
-            var obs = kendo.observable(viewModel);
-            return obs;
-        });
-    }
-    
     function getLoggedViewModel() {
         return electionsPersister.getMyElections().then(function (elections) {
             var viewModel = {
@@ -88,7 +72,6 @@ window.vmFactory = (function () {
     return {
         getLoginViewModel: getLoginViewModel,
         getLoggedViewModel: getLoggedViewModel,
-        getElectionViewModel: getElectionViewModel,
         getManageElectionModel: getManageElectionModel
     }
 }());
