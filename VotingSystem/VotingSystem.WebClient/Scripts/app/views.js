@@ -26,9 +26,28 @@ window.viewsFactory = (function () {
         return promise;
     }
 
+<<<<<<< HEAD
+    function getLoginView() {
+        return getTemplate("login-form");
+    }
+
+    function getLoggedView() {
+        return getTemplate("logged-form");
+    }
+
+    function getElectionView() {
+        return getTemplate("election-form");
+    }
+
+    return {
+        getLoginView: getLoginView,
+        getLoggedView: getLoggedView,
+        getElectionView: getElectionView,
+=======
     return {
         getLoginView: function () { return getTemplate("login-form") },
         getLoggedView: function () { return getTemplate("logged-form") },
         getManageElectionView: function () { return getTemplate("manage-election") }
+>>>>>>> 3459c38428fe553af041ea3bd96af36ceb5b28f1
     }
 }());

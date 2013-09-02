@@ -2,19 +2,49 @@
 window.vmFactory = (function () {
     var dataPersister = persisters.get("http://localhost:4414/api");
     var userPersister = dataPersister.userPersister;
+    var electionsPersister = dataPersister.electionsPersister;
     var router = new kendo.Router();
 
-    function getLoggedViewModel() {
-        var viewModel = {
-            displayname: localStorage["displayname"],
-            logout: function () {
-                userPersister.logout().then(function () {
-                    router.navigate("/login");
-                });
+    function getElectionViewModel(id) {
+        return electionsPersister.getElection(id).then(function (election) {
+            var viewModel = {
+                title: election.title,
+                invitedDisplayname: "",
+                //inviteUser: function () {
+                //    userPersister.invite().then(function () {
+                        
+                //    });
+                //},
             }
-        };
-
-        return kendo.observable(viewModel);
+            var obs = kendo.observable(viewModel);
+            return obs;
+        });
+    }
+    
+    function getLoggedViewModel() {
+        return electionsPersister.getMyElections().then(function (elections) {
+            var viewModel = {
+                displayname: localStorage["displayname"],
+                myElections: elections,
+                logout: function () {
+                    userPersister.logout().then(function () {
+                        router.navigate("/login");
+                    });
+                },
+                createElection: function () {
+                    var electionData = {
+                    };
+                    electionsPersister.createElection(electionData).then(function (data) {
+                        console.log(data);
+                        router.navigate("/");
+                    }, function (errMsg) {
+                        console.log(errMsg);
+                    })
+                }
+            }
+            var obs = kendo.observable(viewModel);
+            return obs;
+        });
     }
 
     function getLoginViewModel() {
@@ -42,8 +72,9 @@ window.vmFactory = (function () {
                 });;
             }
         };
-
-        return kendo.observable(viewModel);
+        return new RSVP.Promise(function (res, rej) {
+            res(kendo.observable(viewModel));
+        });
     };
 
     function getManageElectionModel() {
@@ -53,6 +84,10 @@ window.vmFactory = (function () {
     return {
         getLoginViewModel: getLoginViewModel,
         getLoggedViewModel: getLoggedViewModel,
+<<<<<<< HEAD
+        getElectionViewModel: getElectionViewModel,
+=======
         getManageElectionModel: getManageElectionModel
+>>>>>>> 3459c38428fe553af041ea3bd96af36ceb5b28f1
     }
 }());
