@@ -39,8 +39,6 @@ window.vmFactory = (function () {
         return electionsPersister.getElection(id).then(function (election) {
             var viewModel = {
                 displayname: localStorage["displayname"],
-                electionTitle: election.electionTitle,
-                questions: election.questions,
                 log: function () {
                     userPersister.logout().then(function () {
                         router.navigate("/login");
@@ -57,6 +55,12 @@ window.vmFactory = (function () {
                     }, function (errMsg) {
                         console.log(errMsg);
                     })
+                },
+                electionTitle: election.title,
+                questions: election.questions,
+                voteValue: "",
+                submit: function () {
+                    console.log(this.voteValue);
                 }
             }
             var obs = kendo.observable(viewModel);
@@ -94,8 +98,29 @@ window.vmFactory = (function () {
         });
     };
 
+    function getSeeResultsModel(id) {
+        return electionsPersister.getElectionResults(id).then(kendo.observable, console.log);
+    };
+
     function getManageElectionModel(id) {
-        return electionsPersister.getElection(id).then(kendo.observable, console.log);
+        var election = electionsPersister.getElection(id).then(function(election) {
+            election.inviteUsers = function () {
+                election.invitedUsersDisplayNameString += "," + $("#tb-invite-user").val();
+                election.invitedUsersDisplayNameString = ui.cleanListString(election.invitedUsersDisplayNameString);
+                electionsPersister.putElection(election);
+                router.navigate("/manage-election/" + election.id);
+            };
+            election.seeResults = function () {
+                router.navigate("/see-results/" + election.id);
+            };
+            election.closeElection = function () {
+                electionsPersister.closeElection(election);
+                router.navigate("/see-results/" + election.id);
+            };
+            return election;
+        });
+        
+        return election.then(kendo.observable, console.log);
     };
 
     return {
@@ -103,5 +128,6 @@ window.vmFactory = (function () {
         getLoggedViewModel: getLoggedViewModel,
         getManageElectionModel: getManageElectionModel,
         getInvitedElectionModel: getInvitedElectionModel,
+        getSeeResultsModel: getSeeResultsModel
     }
 }());

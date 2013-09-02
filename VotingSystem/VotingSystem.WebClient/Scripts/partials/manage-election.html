@@ -3,9 +3,9 @@
     <fieldset>
         <legend>Invite users</legend>
         <ul>
-        #: title #
+        #: invitedUsersDisplayNameString #
         </ul>
-        <label for="tb-invite-user"><input type="text"></input></label><button>OK</button>
+        <label for="tb-invite-user"><input id="tb-invite-user" type="text"></input></label><button data-bind="click: inviteUsers">OK</button>
     </fieldset>
-    <button>Close Election</button><button>See Results</button>
+    <button data-bind="click: closeElection">Close Election</button><button data-bind="click: seeResults">See Results</button>
 </script>

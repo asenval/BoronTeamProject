@@ -110,24 +110,31 @@ window.persisters = (function () {
 
         getFilteredElections: function () {
             return this.getAllElections().then(function (elections) {
+
                 var displayname = localStorage["displayname"];
                 var myElections = [];
                 var votedElections = [];
                 var invitedElections = [];
+                var closedElections = [];
+
                 for (var i = 0; i < elections.length; i++) {
                     var election = elections[i];
-                    if (election.ownerNickname == displayname) {
-                        myElections.push(election);
+
+                    if (election.status.toLower() != "open") {
+                        closedElections.push(election);
                     }
-                    else if ((election.votedUsersDisplayNamesString || "").indexOf(displayname) != -1) {
-                        votedElections.push(election);
+                    else if (election.ownerNickname == displayname) {
+                        myElections.push(election);
                     }
                     else if ((election.invitedUsersDisplayNameString || "").indexOf(displayname) != -1) {
                         invitedElections.push(election);
                     }
+                    else if ((election.votedUsersDisplayNamesString || "").indexOf(displayname) != -1) {
+                        votedElections.push(election);
+                    }
                 }
 
-                return [myElections, invitedElections, votedElections];
+                return [myElections, invitedElections, votedElections, closedElections];
             });
         },
 
@@ -141,6 +148,39 @@ window.persisters = (function () {
                 console.log(errMsg);
             });
         },
+
+        putElection: function (election) {
+            var url = this.rootUrl + "/" + election.id;
+            return httpRequester.putJSON(url)
+            .then(function (data) {
+                return data;
+            },
+            function (errMsg) {
+                console.log(errMsg);
+            });
+        },
+
+        closeElection: function (election) {
+            var url = this.rootUrl + "/" + election.id + "/close";
+            return httpRequester.putJSON(url)
+            .then(function (data) {
+                return data;
+            },
+            function (errMsg) {
+                console.log(errMsg);
+            });
+        },
+
+        getElectionResults: function (id) {
+            var url = this.rootUrl + "/" + id + "/results";
+            return httpRequester.getJSON(url)
+            .then(function (data) {
+                return data;
+            },
+            function (errMsg) {
+                console.log(errMsg);
+            });
+        }
     });
 
     return {
