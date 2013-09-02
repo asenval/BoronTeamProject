@@ -12,16 +12,17 @@
 
     <section id="my-elections">
         <h1>My elections</h1>
+        <ul data-template="myElections-template" data-bind="source: myElections">
+
+        </ul>
     </section>
-
-    <script type="text/kendo-tmpl" id="my-elections-layout">
-        <ul data-bind='source: myElections' data-template='my-elections-list-template'></ul>
-    </script>
-
-    <script type="text/kendo-tmpl" id="my-elections-list-template">
-        <li>
-            <a href="\#/myElections/#= id #"></a>
+    <script type="text/x-kendo-template" id="myElections-template">
+        <li class="elections">
+            <a href="/index.html\\#/election/#= id #">#: title # #: status # in #: tags # on #: startDate #</a>
         </li>
     </script>
 </body>
 </html>
+<!--<li>
+            <a href="\#/myElections/#= id #"></a>
+</li>-->

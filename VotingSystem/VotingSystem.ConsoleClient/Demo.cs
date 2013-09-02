@@ -27,11 +27,11 @@ namespace VotingSystem.ConsoleClient
                     Questions = new List<Question>(),
                     Status = new Status() { Name = "active" },
                     State = new State() { Name = "proactive" },
-                    Title = "Welcome friends !",
-                    Tags = new List<Tag>(),
+                    Title = "Welcome boys !",
+                    Tags = new List<Tag>() {new Tag() { Title = "chit-chat"} },
                     User = new User()
                     {
-                        DisplayName = "asadaj",
+                        DisplayName = "rami91",
                         AuthCode = "a9dd14ba6f55cec1b3024d78fccfa5b52fdb6cfa",
                         Username = "ramito",
                     }

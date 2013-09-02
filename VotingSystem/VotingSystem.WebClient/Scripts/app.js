@@ -28,8 +28,9 @@
 
     router.route("/", function () { renderRouteIfLoggedIn(viewsFactory.getLoggedView, vmFactory.getLoggedViewModel) });
    
-    router.route("/login", function() { renderRoute(viewsFactory.getLoginView, vmFactory.getLoginViewModel)});
+    router.route("/login", function () { renderRoute(viewsFactory.getLoginView, vmFactory.getLoginViewModel) });
 
+    router.route("/election/:id", function (id) { renderRoute(viewsFactory.getElectionView, vmFactory.getElectionViewModel(id)) });
 
     $(function () {
         appLayout.render("#application");

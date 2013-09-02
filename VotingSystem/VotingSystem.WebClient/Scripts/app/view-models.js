@@ -4,9 +4,24 @@ window.vmFactory = (function () {
     var userPersister = dataPersister.userPersister;
     var electionsPersister = dataPersister.electionsPersister;
     var router = new kendo.Router();
+
+    function getElectionViewModel(id) {
+        return electionsPersister.getElection(id).then(function (election) {
+            var viewModel = {
+                title: election.title,
+                invitedDisplayname: "",
+                //inviteUser: function () {
+                //    userPersister.invite().then(function () {
+                        
+                //    });
+                //},
+            }
+            var obs = kendo.observable(viewModel);
+            return obs;
+        });
+    }
     
     function getLoggedViewModel() {
-
         return electionsPersister.getMyElections().then(function (elections) {
             var viewModel = {
                 displayname: localStorage["displayname"],
@@ -30,7 +45,6 @@ window.vmFactory = (function () {
             var obs = kendo.observable(viewModel);
             return obs;
         });
-
     }
 
     function getLoginViewModel() {
@@ -65,6 +79,7 @@ window.vmFactory = (function () {
 
     return {
         getLoginViewModel: getLoginViewModel,
-        getLoggedViewModel: getLoggedViewModel
+        getLoggedViewModel: getLoggedViewModel,
+        getElectionViewModel: getElectionViewModel,
     }
 }());

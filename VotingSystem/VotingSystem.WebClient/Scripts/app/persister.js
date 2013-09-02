@@ -99,8 +99,6 @@ window.persisters = (function () {
         },
 
         getAllElections: function () {
-            //var sessionKey = localStorage["sessionKey"];
-            //var url = this.rootUrl + "/" + sessionKey;
             var url = this.rootUrl;
             return httpRequester.getJSON(url)
 		    .then(function (data) {
@@ -121,6 +119,17 @@ window.persisters = (function () {
                     }
                 }
                 return myElections;
+            });
+        },
+
+        getElection: function (id) {
+            var url = this.rootUrl + "/" + id;
+            return httpRequester.getJSON(url)
+		    .then(function (data) {
+		        return data;
+		    },
+            function (errMsg) {
+                console.log(errMsg);
             });
         }
     });

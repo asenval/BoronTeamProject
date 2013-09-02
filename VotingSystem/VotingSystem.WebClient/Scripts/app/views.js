@@ -33,8 +33,13 @@ window.viewsFactory = (function () {
         return getTemplate("logged-form");
     }
 
+    function getElectionView() {
+        return getTemplate("election-form");
+    }
+
     return {
         getLoginView: getLoginView,
         getLoggedView: getLoggedView,
+        getElectionView: getElectionView,
     }
 }());

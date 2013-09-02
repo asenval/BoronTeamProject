@@ -9,6 +9,7 @@ using System.Web.Http;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity;
 using VotingSystem.Model;
+using VotingSystem.Data;
 
 namespace VotingSystem.Services.Controllers
 {
@@ -50,25 +51,28 @@ namespace VotingSystem.Services.Controllers
             //    throw new HttpResponseException(response);
             //}
 
-            var election = this.data.Elections.Get(electionId);
-
-            if (election == null)
+            using (var context = new VotingSystemContext())
             {
-                var httpError = new HttpError("No such election exists.");
-                var response = Request.CreateResponse(HttpStatusCode.BadRequest, httpError);
-                throw new HttpResponseException(response);
-            //    var httpError = new HttpError("No such election exists.");
-            //    return this.Request.CreateResponse(HttpStatusCode.BadRequest, httpError);
+                var election = context.Elections.FirstOrDefault(e => e.Id == electionId);
+                //var election = this.data.Elections.Get(electionId);
+
+                if (election == null)
+                {
+                    var httpError = new HttpError("No such election exists.");
+                    var response = Request.CreateResponse(HttpStatusCode.BadRequest, httpError);
+                    throw new HttpResponseException(response);
+                    //    var httpError = new HttpError("No such election exists.");
+                    //    return this.Request.CreateResponse(HttpStatusCode.BadRequest, httpError);
+                }
+
+                var electionModel = new ElectionModel(election);
+                //var response = Request.CreateResponse<ElectionModel>(HttpStatusCode.OK, electionModel);
+                //var resourceLink = Url.Link("ElectionsApi", new { id = election.Id });
+                //response.Headers.Location = new Uri(resourceLink);
+
+                //return response;
+                return electionModel;
             }
-
-            var electionModel = new ElectionModel(election);
-            //var response = Request.CreateResponse<ElectionModel>(HttpStatusCode.OK, electionModel);
-            //var resourceLink = Url.Link("ElectionsApi", new { id = election.Id });
-            //response.Headers.Location = new Uri(resourceLink);
-
-            //return response;
-            return electionModel;
         }
-
     }
 }
