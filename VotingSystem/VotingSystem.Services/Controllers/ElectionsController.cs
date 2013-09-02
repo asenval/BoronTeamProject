@@ -22,7 +22,7 @@ namespace VotingSystem.Services.Controllers
 
         private const string AnonymousUserNickname = "Anonymous";
 
-        private const string ElectionStatePublic= "Public";
+        private const string ElectionStatePublic = "Public";
         private const string ElectionStatePrivate = "Private";
         private const string ElectionStateUnlisted = "Unlisted";
 
@@ -129,7 +129,7 @@ namespace VotingSystem.Services.Controllers
             var election = this.data.Elections.Get(electionId);
             if (election == null)
             {
-                var httpError = new HttpError(String.Format("No election with id {0} exists.", 
+                var httpError = new HttpError(String.Format("No election with id {0} exists.",
                     electionId));
                 var response = this.Request.CreateResponse(HttpStatusCode.NotFound, httpError);
                 return response;
@@ -153,7 +153,7 @@ namespace VotingSystem.Services.Controllers
                     user = this.data.Users.Find(u => u.DisplayName ==
                         AnonymousUserNickname).FirstOrDefault();
                 }
-            } 
+            }
             else if (user == null)
             {
                 var httpError = new HttpError("You are not logged in.");
@@ -167,7 +167,7 @@ namespace VotingSystem.Services.Controllers
                 // check if the user is in the 'invited users' list for the given election
                 if (election.State.Name == ElectionStatePrivate)
                 {
-                    string commaSeparatedInvitedDisplayNames = 
+                    string commaSeparatedInvitedDisplayNames =
                         election.InvitedUsersDisplayNameString;
 
                     if (!commaSeparatedInvitedDisplayNames.Contains(user.DisplayName))
@@ -192,9 +192,9 @@ namespace VotingSystem.Services.Controllers
             }
 
             var electionQuestions = election.Questions.ToList();
-            
+
             HashSet<int> electionAllAnswerIds = new HashSet<int>();
-            
+
             // gather all the answerIds for the given election questions
             foreach (var question in electionQuestions)
             {
@@ -202,9 +202,9 @@ namespace VotingSystem.Services.Controllers
                     a => a.Question.Id == question.Id).Select(q => q.Id).ToList();
 
                 foreach (var answerId in thisQuestionAnswersIds)
-	            {
+                {
                     electionAllAnswerIds.Add(answerId);
-	            }
+                }
             }
 
             using (TransactionScope tran = new TransactionScope())
@@ -298,13 +298,49 @@ namespace VotingSystem.Services.Controllers
             }
 
             var electionResultModel = new ElectionResultModel(election);
-                              
+
             var resultResponse = Request.CreateResponse<ElectionResultModel>(HttpStatusCode.OK, electionResultModel);
             var resourceLink = Url.Link("ElectionsApi", new { id = election.Id });
             resultResponse.Headers.Location = new Uri(resourceLink);
 
             return resultResponse;
+        }
 
+        [HttpPut]
+        [ActionName("close")]
+        public HttpResponseMessage CloseElection(int electionId,
+            [ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey)
+        {
+            User user = this.data.Users.GetUserBySessionKey(sessionKey);
+
+            if (user == null)
+            {
+                var httpError = new HttpError("You are not logged in.");
+                var errResponse = this.Request.CreateResponse(
+                    HttpStatusCode.Unauthorized, httpError);
+                return errResponse;
+            }
+
+            Election election = this.data.Elections.Get(electionId);
+            this.data.State.Get(election.State.Id); // evaluate
+
+            if (election.User != user)
+            {
+                var httpError = new HttpError(
+                    "You are not the onwer of this election and therefore cannot close it.");
+                var errResponse = this.Request.CreateResponse(
+                    HttpStatusCode.Unauthorized, httpError);
+                return errResponse;
+            }
+
+            var closedStatus = this.data.Status.Find(x => 
+                x.Name == ElectionStatusClosed).FirstOrDefault();
+
+            election.Status = closedStatus;
+            this.data.Elections.Update(electionId, election);
+
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            return response;
         }
     }
 }
