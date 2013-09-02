@@ -10,10 +10,20 @@ namespace VotingSystem.Services
         public static void Register(HttpConfiguration config)
         {
             config.Routes.MapHttpRoute(
+                name: "ElectionsApiId",
+                routeTemplate: "api/elections/{electionId}",
+                defaults: new
+                {
+                    controller = "elections",
+                    electionId = RouteParameter.Optional
+                }
+            );
+
+            config.Routes.MapHttpRoute(
                 name: "ElectionsApi",
                 routeTemplate: "api/elections/{electionId}/{action}",
-                defaults: new { controller = "elections", electionId = RouteParameter.Optional,
-                    action = RouteParameter.Optional 
+                defaults: new { 
+                    controller = "elections", electionId = RouteParameter.Optional
                 }
             );
 
