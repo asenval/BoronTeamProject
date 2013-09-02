@@ -41,7 +41,7 @@ namespace VotingSystem.Repository
         {
             var context = contextFactory.Create();
             var result = context.Set<T>().Find(id);
-            context.Entry(result).State = System.Data.EntityState.Detached;
+            //context.Entry(result).State = System.Data.EntityState.Detached;
             return result;
         }
 

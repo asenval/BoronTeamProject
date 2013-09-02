@@ -45,7 +45,7 @@ namespace VotingSystem.Services.Controllers
             //    throw new HttpResponseException(response);
             //}
 
-            IQueryable<Election> elections = this.data.Elections.All().Include("Questions.Answers").Include("Users");
+            IQueryable<Election> elections = this.data.Elections.All().Include("Questions.Answers").Include("User");
 
             var result = elections.ToList().Select(x => new ElectionModel(x));
             return result;
@@ -206,51 +206,114 @@ namespace VotingSystem.Services.Controllers
 	            }
             }
 
-            var currentDateTime = DateTime.Now;
-            TransactionScope tran = new TransactionScope();
-
-            foreach (var voteModel in voteModels)
+            using (TransactionScope tran = new TransactionScope())
             {
-                // confirm that we are trying to put a value to an answer that
-                // is FROM this election!
-                if (!electionAllAnswerIds.Contains(voteModel.AnswerId))
+                var currentDateTime = DateTime.Now;
+
+                foreach (var voteModel in voteModels)
                 {
-                    var httpError = new HttpError(
-                        "Giving a vote to an answer with ID which is not from this election.");
-                    var response = Request.CreateResponse(HttpStatusCode.Unauthorized,
-                        httpError);
-                    throw new HttpResponseException(response);
+                    // confirm that we are trying to put a value to an answer that
+                    // is FROM this election!
+                    if (!electionAllAnswerIds.Contains(voteModel.AnswerId))
+                    {
+                        var httpError = new HttpError(
+                            "Giving a vote to an answer with ID which is not from this election.");
+                        var response = Request.CreateResponse(HttpStatusCode.Unauthorized,
+                            httpError);
+                        throw new HttpResponseException(response);
+                    }
+
+                    // find the answer with id the current answerId from voteModel
+                    // and give it a new vote
+                    var answer = this.data.Answers.Get(voteModel.AnswerId);
+
+                    if (answer == null)
+                    {
+                        var httpError = new HttpError(
+                            String.Format("Answer with id {0} does not exist.",
+                            voteModel.AnswerId));
+                        var response = Request.CreateResponse(HttpStatusCode.NotFound,
+                            httpError);
+                        throw new HttpResponseException(response);
+                    }
+
+                    var newVote = new Vote
+                    {
+                        Answer = answer,
+                        User = user,
+                        Value = voteModel.Value,
+                        CreationDate = currentDateTime,
+                    };
+
+                    this.data.Votes.Add(newVote);
                 }
 
-                // find the answer with id the current answerId from voteModel
-                // and give it a new vote
-                var answer = this.data.Answers.Get(voteModel.AnswerId);
-                              
-                if (answer == null)
-                {
-                    var httpError = new HttpError(
-                        String.Format("Answer with id {0} does not exist.", 
-                        voteModel.AnswerId));
-                    var response = Request.CreateResponse(HttpStatusCode.NotFound,
-                        httpError);
-                    throw new HttpResponseException(response);
-                }
-
-                var newVote = new Vote
-                {
-                    Answer = answer,
-                    User = user,
-                    Value = voteModel.Value,
-                    CreationDate = currentDateTime,
-                };
-
-                this.data.Votes.Add(newVote);
+                tran.Complete();
             }
 
-            tran.Complete();
-            
             return Request.CreateResponse(HttpStatusCode.Created);
         }
 
+        [HttpGet]
+        [ActionName("results")]
+        public HttpResponseMessage PostVotes(int electionId,
+            [ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey)
+        {
+            var election = this.data.Elections.Get(electionId);
+            if (election == null)
+            {
+                var httpError = new HttpError(String.Format("No election with id {0} exists.",
+                    electionId));
+                var response = this.Request.CreateResponse(HttpStatusCode.NotFound, httpError);
+                return response;
+            }
+
+            User user = this.data.Users.GetUserBySessionKey(sessionKey);
+
+            if (user == null)
+            {
+                var httpError = new HttpError("You are not logged in.");
+                var response = this.Request.CreateResponse(
+                    HttpStatusCode.Unauthorized, httpError);
+                return response;
+            }
+            else
+            {
+                // if we have a valid user authentication and the state is not public
+                if (election.State.Name == ElectionStateUnlisted)
+                {
+                    string commaSeparatedInvitedDisplayNames =
+                        election.InvitedUsersDisplayNameString;
+
+                    if (!commaSeparatedInvitedDisplayNames.Contains(user.DisplayName))
+                    {
+                        var httpError = new HttpError(
+                            "User has no authority to vote in this election (not invited).");
+                        var response = this.Request.CreateResponse(
+                            HttpStatusCode.Unauthorized, httpError);
+                        return response;
+                    }
+                }
+            }
+
+            var electionResultModel = new ElectionResultModel(election);
+
+            foreach (var question in electionResultModel.Questions)
+            {
+                if (question.QuestionType == "boolen")
+                {
+                }
+                else if (question.QuestionType == "sortedList")
+                {
+                    question.Answers.OrderByDescending(x => x.Result).ThenBy(x => x.Id);
+                }
+            }
+         
+            var resultResponse = Request.CreateResponse<ElectionResultModel>(HttpStatusCode.OK, electionResultModel);
+            var resourceLink = Url.Link("ElectionsApi", new { id = election.Id });
+            resultResponse.Headers.Location = new Uri(resourceLink);
+
+            return resultResponse;
+        }
     }
 }
