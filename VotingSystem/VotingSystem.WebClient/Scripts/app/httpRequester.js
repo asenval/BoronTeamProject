@@ -43,6 +43,7 @@
                 type: "PUT",
                 data: JSON.stringify(data),
                 dataType: "json",
+                contentType: "application/json",
                 headers: headers,
                 success: function (data) {
                     resolve(data);

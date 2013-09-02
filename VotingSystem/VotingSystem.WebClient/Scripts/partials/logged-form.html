@@ -1,31 +1,41 @@
 <script type="text/x-kendo-template" id="logged-template">
-    <section id="user-panel">
-        <div data-bind="text: displayname"></div>
-        <button data-bind="click:log">Logout</button>
-        <button data-bind="click:createElection">Create election</button>
-    </section>
-    <section id="my-elections">
-        <h1>My elections</h1>
-        <ul>
-            #for(var i = 0; i < myElections.length; ++i){ #
-                 #= ui.aLi(myElections[i].title, "index.html\\#/manage-election/" + myElections[i].id) #
-            #}#
-        </ul>
-    </section>
-    <section id="invited-elections">
-        <h1>Invited elections</h1>
-        <ul>
-            #for(var i = 0; i < invitedElections.length; ++i){ #
-                 #= ui.aLi(invitedElections[i].title, "index.html\\#/vote-election/" + votedElections[i].id) #
-            #}#
-        </ul>
-    </section>
-    <section id="voting-history">
-        <h1>Voting history</h1>
-        <ul>
-            #for(var i = 0; i < votedElections.length; ++i){ #
-                 #= ui.aLi(votedElections[i].title, "index.html\\#/own-votes/" + votedElections[i].id) #
-            #}#
-        </ul>
-    </section>
+    <ul id="logged-view">
+        <li>
+            <div data-bind="text: displayname"></div>
+            <button data-bind="click:log">Logout</button>
+            <button data-bind="click:createElection">Create election</button>
+        </li>
+        <li>
+            <h1>My elections</h1>
+            <ul id="my-elections">
+                #for(var i = 0; i < myElections.length; ++i){ #
+                     #= ui.aLi(myElections[i].title, "index.html\\#/manage-election/" + myElections[i].id) #
+                #}#
+            </ul>
+        </li>
+        <li>
+            <h1>Invited elections</h1>
+            <ul id="invited-elections">
+                #for(var i = 0; i < invitedElections.length; ++i){ #
+                     #= ui.aLi(invitedElections[i].title, "index.html\\#/vote-election/" + invitedElections[i].id) #
+                #}#
+            </ul>
+        </li>
+        <li>
+            <h1>Voting history</h1>
+            <ul id="voting-history">
+                #for(var i = 0; i < votedElections.length; ++i){ #
+                     <li> #= votedElections[i].title # </li>
+                #}#
+            </ul>
+        </li>
+        <li>
+            <h1>Closed Elections</h1>
+            <ul id="closed-elections">
+                #for(var i = 0; i < votedElections.length; ++i){ #
+                     #= ui.aLi(closedElections[i].title, "index.html\\#/see-results/" + closedElections[i].id) #
+                #}#
+            </ul>
+        </li>
+    </ul>
 </script>

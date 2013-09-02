@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
+using VotingSystem.Data;
 
 namespace VotingSystem.Repository
 {
@@ -7,14 +8,14 @@ namespace VotingSystem.Repository
     {
         public UnitOfWork(IDbContextFactory<DbContext> contextFactory)
         {
-            this.contextFactory = contextFactory;
-            this.Elections = new ElectionRepository(contextFactory);
-            this.Users = new UserRepository(contextFactory);
-            this.Answers = new AnswersRepository(contextFactory);
-            this.Questions = new QuestionsRepository(contextFactory);
-            this.Votes = new VotesRepository(contextFactory);
-            this.State = new StatesRepository(contextFactory);
-            this.Status = new StatusesRepository(contextFactory);
+            this.contextFactory = new VotingSystemContextFactory();
+            this.Elections = new ElectionRepository(this.contextFactory);
+            this.Users = new UserRepository(this.contextFactory);
+            this.Answers = new AnswersRepository(this.contextFactory);
+            this.Questions = new QuestionsRepository(this.contextFactory);
+            this.Votes = new VotesRepository(this.contextFactory);
+            this.State = new StatesRepository(this.contextFactory);
+            this.Status = new StatusesRepository(this.contextFactory);
         }
 
         public ElectionRepository Elections { get; set; }

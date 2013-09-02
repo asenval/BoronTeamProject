@@ -32,6 +32,10 @@ namespace VotingSystem.Services.Controllers
         {
             this.data = new UnitOfWork(contextFactory);
         }
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+        }
 
         [HttpGet]
         [ActionName("get")]
@@ -258,8 +262,10 @@ namespace VotingSystem.Services.Controllers
 
         [HttpGet]
         [ActionName("results")]
-        public HttpResponseMessage PostVotes(int electionId,
-            [ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey)
+        public HttpResponseMessage GetResults(int electionId
+            // ,
+            //[ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey
+            )
         {
             var election = this.data.Elections.Get(electionId);
             if (election == null)
@@ -269,34 +275,33 @@ namespace VotingSystem.Services.Controllers
                 var response = this.Request.CreateResponse(HttpStatusCode.NotFound, httpError);
                 return response;
             }
+            //User user = this.data.Users.GetUserBySessionKey(sessionKey);
 
-            User user = this.data.Users.GetUserBySessionKey(sessionKey);
+            //if (user == null)
+            //{
+            //    var httpError = new HttpError("You are not logged in.");
+            //    var response = this.Request.CreateResponse(
+            //        HttpStatusCode.Unauthorized, httpError);
+            //    return response;
+            //}
+            //else
+            //{
+            //    // if we have a valid user authentication and the state is not public
+            //    if (election.State.Name == ElectionStatePrivate)
+            //    {
+            //        string commaSeparatedInvitedDisplayNames =
+            //            election.InvitedUsersDisplayNameString;
 
-            if (user == null)
-            {
-                var httpError = new HttpError("You are not logged in.");
-                var response = this.Request.CreateResponse(
-                    HttpStatusCode.Unauthorized, httpError);
-                return response;
-            }
-            else
-            {
-                // if we have a valid user authentication and the state is not public
-                if (election.State.Name == ElectionStatePrivate)
-                {
-                    string commaSeparatedInvitedDisplayNames =
-                        election.InvitedUsersDisplayNameString;
-
-                    if (!commaSeparatedInvitedDisplayNames.Contains(user.DisplayName))
-                    {
-                        var httpError = new HttpError(
-                            "User has no authority to vote in this election (not invited).");
-                        var response = this.Request.CreateResponse(
-                            HttpStatusCode.Unauthorized, httpError);
-                        return response;
-                    }
-                }
-            }
+            //        if (!commaSeparatedInvitedDisplayNames.Contains(user.DisplayName))
+            //        {
+            //            var httpError = new HttpError(
+            //                "User has no authority to vote in this election (not invited).");
+            //            var response = this.Request.CreateResponse(
+            //                HttpStatusCode.Unauthorized, httpError);
+            //            return response;
+            //        }
+            //    }
+            //}
 
             var electionResultModel = new ElectionResultModel(election);
 
@@ -339,6 +344,43 @@ namespace VotingSystem.Services.Controllers
 
             election.Status = closedStatus;
             this.data.Elections.Update(electionId, election);
+
+            var response = this.Request.CreateResponse(HttpStatusCode.OK);
+            return response;
+        }
+
+        [HttpPut]
+        [ActionName("Update")]
+        public HttpResponseMessage UpdateElection(int electionId, [FromBody] ElectionModel model
+            //,[ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey
+            )
+        {
+            //User user = this.data.Users.GetUserBySessionKey(sessionKey);
+
+            //if (user == null)
+            //{
+            //    var httpError = new HttpError("You are not logged in.");
+            //    var errResponse = this.Request.CreateResponse(
+            //        HttpStatusCode.Unauthorized, httpError);
+            //    return errResponse;
+            //}
+
+            Election election = this.data.Elections.Get(electionId);
+            this.data.State.Get(election.State.Id); // evaluate
+            this.data.Status.Get(election.Status.Id); // evaluate
+            this.data.Status.Get(election.User.Id); // evaluate
+
+            //if (election.User != user)
+            //{
+            //    var httpError = new HttpError(
+            //        "You are not the onwer of this election and therefore cannot update it.");
+            //    var errResponse = this.Request.CreateResponse(
+            //        HttpStatusCode.Unauthorized, httpError);
+            //    return errResponse;
+            //}
+
+            CopyClassProperties.Fill(election, model, true, "Id");
+            this.data.Elections.Update(election.Id, election);
 
             var response = this.Request.CreateResponse(HttpStatusCode.OK);
             return response;
