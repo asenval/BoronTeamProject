@@ -306,7 +306,6 @@ namespace VotingSystem.Services.Controllers
             return resultResponse;
         }
 
-
         [HttpPut]
         [ActionName("close")]
         public HttpResponseMessage CloseElection(int electionId,
