@@ -34,7 +34,7 @@ window.persisters = (function () {
             var url = this.rootUrl + "/login";
             var userData = {
                 username: user.username,
-                authCode: CryptoJS.SHA1(user.username + user.password).toString() 
+                authCode: CryptoJS.SHA1(user.username + user.password).toString()
             };
 
             return httpRequester.postJSON(url, userData)
@@ -108,22 +108,22 @@ window.persisters = (function () {
             });
         },
 
-        getMyElections: function () {
+        getFilteredElections: function () {
             return this.getAllElections().then(function (elections) {
-                var name = localStorage["displayname"];
+                var displayname = localStorage["displayname"];
                 var myElections = [];
-                var invitedElections = [];
                 var votedElections = [];
+                var invitedElections = [];
                 for (var i = 0; i < elections.length; i++) {
                     var election = elections[i];
-                    if (election.ownerNickname == name) {
+                    if (election.ownerNickname == displayname) {
                         myElections.push(election);
                     }
-                    else if (election.votedElections.indexOf(name) != -1) {
+                    else if ((election.votedUsersDisplayNamesString || "").indexOf(displayname) != -1) {
                         votedElections.push(election);
                     }
-                    else if (election.invitedElections.indexOf(name) != -1) {
-                        invi.push(election);
+                    else if ((election.invitedUsersDisplayNameString || "").indexOf(displayname) != -1) {
+                        invitedElections.push(election);
                     }
                 }
 
@@ -131,23 +131,21 @@ window.persisters = (function () {
             });
         },
 
-            
-
-    getElection: function (id) {
-        var url = this.rootUrl + "/" + id;
-        return httpRequester.getJSON(url)
-        .then(function (data) {
-            return data;
+        getElection: function (id) {
+            var url = this.rootUrl + "/" + id;
+            return httpRequester.getJSON(url)
+            .then(function (data) {
+                return data;
+            },
+            function (errMsg) {
+                console.log(errMsg);
+            });
         },
-        function (errMsg) {
-            console.log(errMsg);
-        });
-    }
-});
+    });
 
-return {
-    get: function (url) {
-        return new MainPersister(url);
+    return {
+        get: function (url) {
+            return new MainPersister(url);
+        }
     }
-}
 }());

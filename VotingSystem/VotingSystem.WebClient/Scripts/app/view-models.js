@@ -6,12 +6,41 @@ window.vmFactory = (function () {
     var router = new kendo.Router();
 
     function getLoggedViewModel() {
-        return electionsPersister.getMyElections().then(function (elections) {
+        return electionsPersister.getFilteredElections().then(function (elections) {
             var viewModel = {
                 displayname: localStorage["displayname"],
                 myElections: elections[0],
                 invitedElections: elections[1],
                 votedElections: elections[2],
+                log: function () {
+                    userPersister.logout().then(function () {
+                        router.navigate("/login");
+                    }, function (errMsg) {
+                        console.log(errMsg);
+                    });
+                },
+                createElection: function () {
+                    var electionData = {
+                    };
+                    electionsPersister.createElection(electionData).then(function (data) {
+                        console.log(data);
+                        router.navigate("/");
+                    }, function (errMsg) {
+                        console.log(errMsg);
+                    })
+                }
+            }
+            var obs = kendo.observable(viewModel);
+            return obs;
+        });
+    }
+
+    function getInvitedElectionModel(id) {
+        return electionsPersister.getElection(id).then(function (election) {
+            var viewModel = {
+                displayname: localStorage["displayname"],
+                electionTitle: election.electionTitle,
+                questions: election.questions,
                 log: function () {
                     userPersister.logout().then(function () {
                         router.navigate("/login");
@@ -72,6 +101,7 @@ window.vmFactory = (function () {
     return {
         getLoginViewModel: getLoginViewModel,
         getLoggedViewModel: getLoggedViewModel,
-        getManageElectionModel: getManageElectionModel
+        getManageElectionModel: getManageElectionModel,
+        getInvitedElectionModel: getInvitedElectionModel,
     }
 }());

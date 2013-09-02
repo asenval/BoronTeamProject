@@ -7,6 +7,9 @@
         return eval("(" + body + ")");
     };
 };
+window.onerror = function (err) {
+    alert(err);
+};
 ali = function (text, url) {
     return '<a href="'+ url + '"><li>' + text + '</li></a>';
 };
