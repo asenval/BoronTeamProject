@@ -7,7 +7,7 @@ namespace VotingSystem.Data.Migrations
     using System.Linq;
     using VotingSystem.Model;
 
-    public sealed class Configuration : DropCreateDatabaseIfModelChanges<VotingSystem.Data.VotingSystemContext> //CreateDatabaseIfNotExists
+    public sealed class Configuration : IDatabaseInitializer<VotingSystem.Data.VotingSystemContext>//CreateDatabaseIfNotExists<VotingSystem.Data.VotingSystemContext> //CreateDatabaseIfNotExists
     {
         public Configuration()
         {
@@ -187,6 +187,10 @@ namespace VotingSystem.Data.Migrations
             });
 
             context.SaveChanges();
+        }
+
+        public void InitializeDatabase(VotingSystemContext context)
+        {
         }
     }
 }

@@ -24,7 +24,6 @@ namespace VotingSystem.Services
             var context = new VotingSystem.Data.VotingSystemContext();
             using (context)
             {
-
                 context.Database.Initialize(true);
             }
 
