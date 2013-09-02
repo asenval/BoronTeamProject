@@ -34,6 +34,9 @@ namespace VotingSystem.Services.Models
         [DataMember(Name = "ownerNickname")]
         public virtual string Owner { get; set; }
 
+        [DataMember(Name = "votedUsersDisplayNamesString")]
+        public virtual string VotedUsersDisplayNamesString { get; set; }
+
         public ElectionBaseModel(Election election)
         {
             CopyClassProperties.Fill(this, election);
