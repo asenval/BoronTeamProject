@@ -1,0 +1,51 @@
+﻿<script type="text/x-kendo-template" id="create-template">
+    <fieldset>
+        <legend>Creating Election</legend>
+
+        <label for="tb-election-title">Election name</label>
+        <input data-bind="value: title" type="text" id="tb-election-title"/>
+
+        <label for="tb-election-status">Status</label>
+        <select data-bind="value: status" id = "tb-election-status">
+            <option selected="selected">Open</option>
+            <option >Close</option>
+        </select>
+
+        <label for="tb-election-state">State</label>
+        <select data-bind="value: state" id = "tb-election-state">
+            <option selected="selected">Public</option>
+            <option >Unlisted</option>
+            <option >Private</option>
+        </select>
+
+        <label for="tb-election-startdate">Start date</label>
+        <input data-bind="value: startdate" type="text" id="tb-election-startdate"/>
+        <label for="tb-election-enddate">End date</label>
+        <input data-bind="value: enddate" type="text" id="tb-election-enddate"/>
+
+        <fieldset>
+            <legend>Question</legend>
+            <label for="tb-question-content">Question content</label>
+            <input data-bind="value: curentQuestionContent" type="text" id="tb-question-content"/>
+
+            <label for="tb-question-status">Question type</label>
+            <select data-bind="value: curentQuestionType" id = "tb-question-status">
+                <option selected="selected">Boolean</option>
+                <option >Slider</option>
+                <option >Arrange</option>
+            </select>
+
+            <fieldset>
+                <legend>Answers</legend>
+                <label for="tb-answer-content">Answer content</label>
+                <input data-bind="value: currentAnswerContent" type="text" id="tb-answer-content"/>
+
+                <button data-bind="click:addAnswer">AddAnswer</button>
+            </fieldset>
+
+            <button data-bind="click:addQuestion">AddQuestion</button>
+        </fieldset>
+       <button data-bind="click:submit">Submit</button>
+    </fieldset>
+  
+</script>
