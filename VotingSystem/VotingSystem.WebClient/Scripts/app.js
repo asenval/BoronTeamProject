@@ -40,6 +40,14 @@
 
     router.route("/manage-election/:id", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel) });
 
+    router.route("/create-election", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel) });
+
+    router.route("/own-votes/:id", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel) });
+
+    router.route("/vote-election/:id", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel) });
+
+    router.route("/see-results/:id", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel) });
+
     $(function () {
         appLayout.render("#application");
         router.start();
