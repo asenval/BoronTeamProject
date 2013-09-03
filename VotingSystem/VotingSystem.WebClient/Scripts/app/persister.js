@@ -120,7 +120,7 @@ window.persisters = (function () {
                 for (var i = 0; i < elections.length; i++) {
                     var election = elections[i];
 
-                    if (election.status.toLower() != "open") {
+                    if (election.status.toLowerCase() != "open") {
                         closedElections.push(election);
                     }
                     else if (election.ownerNickname == displayname) {
@@ -139,7 +139,7 @@ window.persisters = (function () {
         },
 
         getElection: function (id) {
-            var url = this.rootUrl + "/" + id;
+            var url = this.rootUrl + "/" + id + "/GetById";
             return httpRequester.getJSON(url)
             .then(function (data) {
                 return data;
@@ -150,7 +150,7 @@ window.persisters = (function () {
         },
 
         putElection: function (election) {
-            var url = this.rootUrl + "/" + election.id;
+            var url = this.rootUrl + "/" + election.id + "/Update";
             return httpRequester.putJSON(url)
             .then(function (data) {
                 return data;

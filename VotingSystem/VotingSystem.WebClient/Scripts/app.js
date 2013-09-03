@@ -50,7 +50,8 @@
     // asen
     router.route("/create-election", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel) });
 
-    router.route("/own-votes/:id", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel, id) });
+    // not available in demo!
+    // router.route("/own-votes/:id", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel, id) });
 
     router.route("/vote-election/:id", function (id) { renderRoute(viewsFactory.getInvitedElectionView, vmFactory.getInvitedElectionModel, id) });
 

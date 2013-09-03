@@ -24,7 +24,7 @@
         <h1>Voting history</h1>
         <ul>
             #for(var i = 0; i < votedElections.length; ++i){ #
-                 #= ui.aLi(votedElections[i].title, "index.html\\#/own-votes/" + votedElections[i].id) #
+                 <li> #= votedElections[i].title # </li>
             #}#
         </ul>
     </section>

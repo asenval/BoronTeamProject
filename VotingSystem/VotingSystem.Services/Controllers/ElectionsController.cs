@@ -32,6 +32,10 @@ namespace VotingSystem.Services.Controllers
         {
             this.data = new UnitOfWork(contextFactory);
         }
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+        }
 
         [HttpGet]
         [ActionName("get")]
@@ -347,31 +351,32 @@ namespace VotingSystem.Services.Controllers
 
         [HttpPut]
         [ActionName("Update")]
-        public HttpResponseMessage UpdateElection(int electionId, ElectionModel model,
-            [ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey)
+        public HttpResponseMessage UpdateElection(int electionId, ElectionModel model
+            //,[ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey
+            )
         {
-            User user = this.data.Users.GetUserBySessionKey(sessionKey);
+            //User user = this.data.Users.GetUserBySessionKey(sessionKey);
 
-            if (user == null)
-            {
-                var httpError = new HttpError("You are not logged in.");
-                var errResponse = this.Request.CreateResponse(
-                    HttpStatusCode.Unauthorized, httpError);
-                return errResponse;
-            }
+            //if (user == null)
+            //{
+            //    var httpError = new HttpError("You are not logged in.");
+            //    var errResponse = this.Request.CreateResponse(
+            //        HttpStatusCode.Unauthorized, httpError);
+            //    return errResponse;
+            //}
 
             Election election = this.data.Elections.Get(electionId);
             this.data.State.Get(election.State.Id); // evaluate
             this.data.Status.Get(election.Status.Id); // evaluate
 
-            if (election.User != user)
-            {
-                var httpError = new HttpError(
-                    "You are not the onwer of this election and therefore cannot update it.");
-                var errResponse = this.Request.CreateResponse(
-                    HttpStatusCode.Unauthorized, httpError);
-                return errResponse;
-            }
+            //if (election.User != user)
+            //{
+            //    var httpError = new HttpError(
+            //        "You are not the onwer of this election and therefore cannot update it.");
+            //    var errResponse = this.Request.CreateResponse(
+            //        HttpStatusCode.Unauthorized, httpError);
+            //    return errResponse;
+            //}
 
             CopyClassProperties.Fill(election, model);
             this.data.Elections.Update(election.Id, election);
