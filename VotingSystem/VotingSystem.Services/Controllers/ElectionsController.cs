@@ -259,7 +259,8 @@ namespace VotingSystem.Services.Controllers
         [HttpGet]
         [ActionName("results")]
         public HttpResponseMessage GetResults(int electionId,
-            [ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey)
+            //[ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey
+            )
         {
             var election = this.data.Elections.Get(electionId);
             if (election == null)
@@ -269,34 +270,33 @@ namespace VotingSystem.Services.Controllers
                 var response = this.Request.CreateResponse(HttpStatusCode.NotFound, httpError);
                 return response;
             }
+            //User user = this.data.Users.GetUserBySessionKey(sessionKey);
 
-            User user = this.data.Users.GetUserBySessionKey(sessionKey);
+            //if (user == null)
+            //{
+            //    var httpError = new HttpError("You are not logged in.");
+            //    var response = this.Request.CreateResponse(
+            //        HttpStatusCode.Unauthorized, httpError);
+            //    return response;
+            //}
+            //else
+            //{
+            //    // if we have a valid user authentication and the state is not public
+            //    if (election.State.Name == ElectionStatePrivate)
+            //    {
+            //        string commaSeparatedInvitedDisplayNames =
+            //            election.InvitedUsersDisplayNameString;
 
-            if (user == null)
-            {
-                var httpError = new HttpError("You are not logged in.");
-                var response = this.Request.CreateResponse(
-                    HttpStatusCode.Unauthorized, httpError);
-                return response;
-            }
-            else
-            {
-                // if we have a valid user authentication and the state is not public
-                if (election.State.Name == ElectionStatePrivate)
-                {
-                    string commaSeparatedInvitedDisplayNames =
-                        election.InvitedUsersDisplayNameString;
-
-                    if (!commaSeparatedInvitedDisplayNames.Contains(user.DisplayName))
-                    {
-                        var httpError = new HttpError(
-                            "User has no authority to vote in this election (not invited).");
-                        var response = this.Request.CreateResponse(
-                            HttpStatusCode.Unauthorized, httpError);
-                        return response;
-                    }
-                }
-            }
+            //        if (!commaSeparatedInvitedDisplayNames.Contains(user.DisplayName))
+            //        {
+            //            var httpError = new HttpError(
+            //                "User has no authority to vote in this election (not invited).");
+            //            var response = this.Request.CreateResponse(
+            //                HttpStatusCode.Unauthorized, httpError);
+            //            return response;
+            //        }
+            //    }
+            //}
 
             var electionResultModel = new ElectionResultModel(election);
 

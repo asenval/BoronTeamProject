@@ -54,7 +54,7 @@
 
     router.route("/vote-election/:id", function (id) { renderRoute(viewsFactory.getInvitedElectionView, vmFactory.getInvitedElectionModel, id) });
 
-    router.route("/see-results/:id", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel, id) });
+    router.route("/see-results/:id", function (id) { renderRoute(viewsFactory.getSeeResultsView, vmFactory.getSeeResultsModel, id) });
 
     $(function () {
         appLayout.render("#application");

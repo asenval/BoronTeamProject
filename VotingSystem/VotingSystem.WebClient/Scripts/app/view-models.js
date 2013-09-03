@@ -98,6 +98,10 @@ window.vmFactory = (function () {
         });
     };
 
+    function getSeeResultsModel(id) {
+        return electionsPersister.getElectionResults(id).then(kendo.observable, console.log);
+    };
+
     function getManageElectionModel(id) {
         var election = electionsPersister.getElection(id).then(function(election) {
             election.inviteUsers = function () {
@@ -124,5 +128,6 @@ window.vmFactory = (function () {
         getLoggedViewModel: getLoggedViewModel,
         getManageElectionModel: getManageElectionModel,
         getInvitedElectionModel: getInvitedElectionModel,
+        getSeeResultsModel: getSeeResultsModel
     }
 }());

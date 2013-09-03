@@ -170,6 +170,17 @@ window.persisters = (function () {
                 console.log(errMsg);
             });
         },
+
+        getElectionResults: function (id) {
+            var url = this.rootUrl + "/" + id + "/results";
+            return httpRequester.getJSON(url)
+            .then(function (data) {
+                return data;
+            },
+            function (errMsg) {
+                console.log(errMsg);
+            });
+        }
     });
 
     return {

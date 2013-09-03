@@ -31,5 +31,6 @@ window.viewsFactory = (function () {
         getLoggedView: function () { return getTemplate("logged-form") },
         getManageElectionView: function () { return getTemplate("manage-election") },
         getInvitedElectionView: function () { return getTemplate("invited-election") },
+        getSeeResultsView: function () { return getTemplate("see-results") }
     }
 }());
