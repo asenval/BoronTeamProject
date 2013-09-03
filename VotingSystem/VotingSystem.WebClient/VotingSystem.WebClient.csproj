@@ -78,6 +78,18 @@
     <Content Include="Scripts\partials\manage-election.html" />
     <Content Include="Scripts\partials\logged-form.html" />
     <Content Include="Scripts\partials\login-form.html" />
+    <Content Include="Styles\kendo.common.min.css" />
+    <Content Include="Styles\kendo.default.min.css" />
+    <Content Include="Styles\kendo.silver.min.css" />
+    <Content Include="Styles\Silver\editor.png" />
+    <Content Include="Styles\Silver\imagebrowser.png" />
+    <Content Include="Styles\Silver\loading-image.gif" />
+    <Content Include="Styles\Silver\loading.gif" />
+    <Content Include="Styles\Silver\loading_2x.gif" />
+    <Content Include="Styles\Silver\slider-h.gif" />
+    <Content Include="Styles\Silver\slider-v.gif" />
+    <Content Include="Styles\Silver\sprite.png" />
+    <Content Include="Styles\Silver\sprite_2x.png" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
