@@ -43,7 +43,6 @@
     // rami
     router.route("/login", function () { renderRoute(viewsFactory.getLoginView, vmFactory.getLoginViewModel) });
 
-
     // velko 
     router.route("/manage-election/:id", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel, id) });
 
@@ -53,8 +52,7 @@
 
     router.route("/own-votes/:id", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel, id) });
 
-    // rami
-    router.route("/vote-election/:id", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel, id) });
+    router.route("/vote-election/:id", function (id) { renderRoute(viewsFactory.getInvitedElectionView, vmFactory.getInvitedElectionModel, id) });
 
     router.route("/see-results/:id", function (id) { renderRoute(viewsFactory.getManageElectionView, vmFactory.getManageElectionModel, id) });
 

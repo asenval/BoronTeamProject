@@ -39,7 +39,6 @@ window.vmFactory = (function () {
         return electionsPersister.getElection(id).then(function (election) {
             var viewModel = {
                 displayname: localStorage["displayname"],
-                electionTitle: election.electionTitle,
                 log: function () {
                     userPersister.logout().then(function () {
                         router.navigate("/login");
@@ -56,6 +55,12 @@ window.vmFactory = (function () {
                     }, function (errMsg) {
                         console.log(errMsg);
                     })
+                },
+                electionTitle: election.title,
+                questions: election.questions,
+                voteValue: "",
+                submit: function () {
+                    console.log(this.voteValue);
                 }
             }
             var obs = kendo.observable(viewModel);
@@ -117,6 +122,7 @@ window.vmFactory = (function () {
     return {
         getLoginViewModel: getLoginViewModel,
         getLoggedViewModel: getLoggedViewModel,
-        getManageElectionModel: getManageElectionModel
+        getManageElectionModel: getManageElectionModel,
+        getInvitedElectionModel: getInvitedElectionModel,
     }
 }());

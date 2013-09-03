@@ -29,6 +29,10 @@ namespace VotingSystem.Services.Resolvers
             {
                 return new ElectionsController(contextFactory);
             }
+            else if (serviceType == typeof(VotesController))
+            {
+                return new VotesController(contextFactory);
+            }
             else
             {
                 return null;
