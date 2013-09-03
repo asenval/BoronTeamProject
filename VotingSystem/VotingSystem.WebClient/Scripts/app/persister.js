@@ -151,7 +151,7 @@ window.persisters = (function () {
 
         putElection: function (election) {
             var url = this.rootUrl + "/" + election.id + "/Update";
-            return httpRequester.putJSON(url)
+            return httpRequester.putJSON(url, election)
             .then(function (data) {
                 return data;
             },

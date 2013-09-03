@@ -351,7 +351,7 @@ namespace VotingSystem.Services.Controllers
 
         [HttpPut]
         [ActionName("Update")]
-        public HttpResponseMessage UpdateElection(int electionId, ElectionModel model
+        public HttpResponseMessage UpdateElection(int electionId, [FromBody] ElectionModel model
             //,[ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey
             )
         {
@@ -368,6 +368,7 @@ namespace VotingSystem.Services.Controllers
             Election election = this.data.Elections.Get(electionId);
             this.data.State.Get(election.State.Id); // evaluate
             this.data.Status.Get(election.Status.Id); // evaluate
+            this.data.Status.Get(election.User.Id); // evaluate
 
             //if (election.User != user)
             //{
@@ -378,7 +379,7 @@ namespace VotingSystem.Services.Controllers
             //    return errResponse;
             //}
 
-            CopyClassProperties.Fill(election, model);
+            CopyClassProperties.Fill(election, model, true, "Id");
             this.data.Elections.Update(election.Id, election);
 
             var response = this.Request.CreateResponse(HttpStatusCode.OK);

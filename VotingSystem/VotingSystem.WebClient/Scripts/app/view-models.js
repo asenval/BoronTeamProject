@@ -1,6 +1,7 @@
 ﻿/// <reference path="../lib/_references.js" />
 window.vmFactory = (function () {
-    var dataPersister = persisters.get("http://votingsysyem.apphb.com/api");
+    // "http://votingsysyem.apphb.com/api"
+    var dataPersister = persisters.get("http://localhost:4414/api");
     var userPersister = dataPersister.userPersister;
     var electionsPersister = dataPersister.electionsPersister;
     var router = new kendo.Router();
@@ -107,8 +108,9 @@ window.vmFactory = (function () {
             election.inviteUsers = function () {
                 election.invitedUsersDisplayNameString += "," + $("#tb-invite-user").val();
                 election.invitedUsersDisplayNameString = ui.cleanListString(election.invitedUsersDisplayNameString);
-                electionsPersister.putElection(election);
-                router.navigate("/manage-election/" + election.id);
+                electionsPersister.putElection(election).then(function () {
+                    document.location.reload(true);
+                });
             };
             election.seeResults = function () {
                 router.navigate("/see-results/" + election.id);
