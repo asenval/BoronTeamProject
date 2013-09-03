@@ -16,7 +16,7 @@
         <h1>Invited elections</h1>
         <ul>
             #for(var i = 0; i < invitedElections.length; ++i){ #
-                 #= ui.aLi(invitedElections[i].title, "index.html\\#/vote-election/" + votedElections[i].id) #
+                 #= ui.aLi(invitedElections[i].title, "index.html\\#/vote-election/" + invitedElections[i].id) #
             #}#
         </ul>
     </section>
@@ -25,6 +25,14 @@
         <ul>
             #for(var i = 0; i < votedElections.length; ++i){ #
                  #= ui.aLi(votedElections[i].title, "index.html\\#/own-votes/" + votedElections[i].id) #
+            #}#
+        </ul>
+    </section>
+        <section id="closed-elections">
+        <h1>Closed Elections</h1>
+        <ul>
+            #for(var i = 0; i < votedElections.length; ++i){ #
+                 #= ui.aLi(closedElections[i].title, "index.html\\#/see-results/" + closedElections[i].id) #
             #}#
         </ul>
     </section>

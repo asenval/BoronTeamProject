@@ -36,7 +36,7 @@
             console.log(viewError);
         });
     }
-
+    
     // rami
     router.route("/", function () { renderRouteIfLoggedIn(viewsFactory.getLoggedView, vmFactory.getLoggedViewModel) });
    
