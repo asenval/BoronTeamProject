@@ -258,7 +258,8 @@ namespace VotingSystem.Services.Controllers
 
         [HttpGet]
         [ActionName("results")]
-        public HttpResponseMessage GetResults(int electionId,
+        public HttpResponseMessage GetResults(int electionId
+            // ,
             //[ValueProvider(typeof(HeaderValueProviderFactory<string>))] string sessionKey
             )
         {
