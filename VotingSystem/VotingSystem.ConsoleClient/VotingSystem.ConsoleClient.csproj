@@ -64,10 +64,6 @@
       <Project>{a664d230-9ef4-4476-9142-87e2c38f1eef}</Project>
       <Name>VotingSystem.Model</Name>
     </ProjectReference>
-    <ProjectReference Include="..\VotingSystem.Services\VotingSystem.Services.csproj">
-      <Project>{0ac806de-009c-4928-80e3-e41645cf0b8b}</Project>
-      <Name>VotingSystem.Services</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
