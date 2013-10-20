@@ -1,7 +1,9 @@
 ﻿/// <reference path="lib/_references.js" />
 (function () {
-    var dataPersister = persisters.get("http://votingsysyem.apphb.com/api");
-    // var dataPersister = persisters.get("http://localhost:4414/api");
+    var url = "http://votingsysyem.apphb.com/api";
+    //var url = "http://localhost:4414/api";
+    vmFactory.init(url);
+    var dataPersister = persisters.get(url);
     var userPersister = dataPersister.userPersister;
     var electionsPersister = dataPersister.electionsPersister;
     

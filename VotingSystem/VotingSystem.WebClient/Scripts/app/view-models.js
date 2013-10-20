@@ -1,9 +1,8 @@
 ﻿/// <reference path="../lib/_references.js" />
 window.vmFactory = (function () {
-    var dataPersister = persisters.get("http://votingsysyem.apphb.com/api");
-    //var dataPersister = persisters.get("http://localhost:4414/api");
-    var userPersister = dataPersister.userPersister;
-    var electionsPersister = dataPersister.electionsPersister;
+    var dataPersister;
+    var userPersister;
+    var electionsPersister;
     var router = new kendo.Router();
 
     function getLoggedViewModel() {
@@ -192,6 +191,12 @@ window.vmFactory = (function () {
     };
 
     return {
+        init: function(url)
+        {
+            dataPersister = persisters.get(url);
+            userPersister = dataPersister.userPersister;
+            electionsPersister = dataPersister.electionsPersister;
+        },
         getLoginViewModel: getLoginViewModel,
         getLoggedViewModel: getLoggedViewModel,
         getManageElectionModel: getManageElectionModel,

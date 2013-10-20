@@ -20,14 +20,15 @@ namespace VotingSystem.Services
     {
         protected void Application_Start()
         {
-            // Database.SetInitializer<VotingSystemContext>(new Configuration());
-            var context = new VotingSystem.Data.VotingSystemContext();
-            using (context)
-            {
-                // context.Database.Initialize(true);
-                var temp = context.Elections.Count();
-                new Configuration().InitializeDatabase(context);
-            }
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<VotingSystemContext, Configuration>());
+            //Database.SetInitializer<VotingSystemContext>(new Configuration());
+            //var context = new VotingSystem.Data.VotingSystemContext();
+            //using (context)
+            //{
+            //    // context.Database.Initialize(true);
+            //    var temp = context.Elections.Count();
+            //    new Configuration().InitializeDatabase(context);
+            //}
 
             AreaRegistration.RegisterAllAreas();
 
@@ -51,7 +52,7 @@ namespace VotingSystem.Services
             {
                 //These headers are handling the "pre-flight" OPTIONS call sent by the browser
                 HttpContext.Current.Response.AddHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-                HttpContext.Current.Response.AddHeader("Access-Control-Allow-Headers", "Content-Type, Accept");
+                HttpContext.Current.Response.AddHeader("Access-Control-Allow-Headers", "Content-Type, Accept, X-sessionKey");
                 HttpContext.Current.Response.AddHeader("Access-Control-Max-Age", "1728000");
                 HttpContext.Current.Response.End();
             }

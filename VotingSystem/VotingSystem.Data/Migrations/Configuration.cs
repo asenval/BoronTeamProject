@@ -7,15 +7,15 @@ namespace VotingSystem.Data.Migrations
     using System.Linq;
     using VotingSystem.Model;
 
-    public class Configuration : IDatabaseInitializer<VotingSystem.Data.VotingSystemContext> //CreateDatabaseIfNotExists
+    public class Configuration : DbMigrationsConfiguration<VotingSystem.Data.VotingSystemContext> //CreateDatabaseIfNotExists
     {
         public Configuration()
         {
-            //AutomaticMigrationsEnabled = true;
-            //AutomaticMigrationDataLossAllowed = true;
+            AutomaticMigrationsEnabled = true;
+            AutomaticMigrationDataLossAllowed = true;
         }
 
-        void Seed(VotingSystem.Data.VotingSystemContext context)
+        protected override void Seed(VotingSystem.Data.VotingSystemContext context)
         {
             //  This method will be called after migrating to the latest version.
 
@@ -39,9 +39,9 @@ namespace VotingSystem.Data.Migrations
 
             context.Users.AddOrUpdate(x => x.Username, new User
             {
-                DisplayName = "userTest",
-                AuthCode = "c8bbfb35608f4be64645e29c1b2ce3b17f9d8e38",
-                Username = "userTest"
+                DisplayName = "usertest",
+                AuthCode = "1118ee46a7cd594a4af89a9ff0e8fac59cc034fe",
+                Username = "usertest"
             });
 
             context.Users.AddOrUpdate(x => x.Username, new User
@@ -189,9 +189,9 @@ namespace VotingSystem.Data.Migrations
             context.SaveChanges();
         }
 
-        public void InitializeDatabase(VotingSystemContext context)
-        {
-            Seed(context);
-        }
+        //public void InitializeDatabase(VotingSystemContext context)
+        //{
+        //    Seed(context);
+        //}
     }
 }
